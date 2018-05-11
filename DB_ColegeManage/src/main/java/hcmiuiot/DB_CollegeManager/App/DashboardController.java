@@ -5,15 +5,16 @@
  */
 package hcmiuiot.DB_CollegeManager.App;
 
-import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXPopup;
-import com.jfoenix.controls.JFXRippler;
-import com.jfoenix.controls.JFXToolbar;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXRippler;
+import com.jfoenix.controls.JFXToolbar;
+
 import javafx.animation.FadeTransition;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -23,7 +24,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
@@ -31,11 +31,11 @@ import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 
 public class DashboardController implements Initializable {
-
+	
+	@FXML
     private Label lblDash;
     @FXML
     private StackPane stackPane;
-
     @FXML
     private AnchorPane holderPane;
     @FXML
@@ -73,25 +73,14 @@ public class DashboardController implements Initializable {
     @FXML
     private JFXButton btnClose;
 
+    @Override
     public void initialize(URL url, ResourceBundle rb) {
         JFXRippler fXRippler = new JFXRippler(lblDash);
         JFXRippler fXRippler2 = new JFXRippler(lblMenu);
         fXRippler2.setMaskType((JFXRippler.RipplerMask.RECT));
         sideAnchor.getChildren().add(fXRippler);
         toolBarRight.getChildren().add(fXRippler2);
-        openMenus();
         createPages();
-
-    }
-
-    private void openMenus() {
-//        JFXPopup popup = new JFXPopup();
-//        popup.setPopupContent(overflowContainer);
-//        popup.setPopupContainer(stackPane);
-//        popup.setSource(lblMenu);
-//        lblMenu.setOnMouseClicked((MouseEvent e) -> {
-//            popup.show(JFXPopup.PopupVPosition.TOP, JFXPopup.PopupHPosition.RIGHT, -10, 40);
-//        });
 
     }
 
@@ -100,7 +89,7 @@ public class DashboardController implements Initializable {
         holderPane.getChildren().clear();
         holderPane.getChildren().add((Node) node);
 
-        FadeTransition ft = new FadeTransition(Duration.millis(1500));
+        FadeTransition ft = new FadeTransition(Duration.millis(200));
         ft.setNode(node);
         ft.setFromValue(0.1);
         ft.setToValue(1);
@@ -109,14 +98,11 @@ public class DashboardController implements Initializable {
         ft.play();
     }
 
-    //Load all fxml files to a cahce for swapping
     private void createPages() {
         try {
-            home = FXMLLoader.load(getClass().getResource("/modules/Overview.fxml"));
-            list = FXMLLoader.load(getClass().getResource("/modules/Profile.fxml"));
-            add = FXMLLoader.load(getClass().getResource("/modules/Register.fxml"));
-
-            //set up default node on page load
+            home = FXMLLoader.load(getClass().getResource("Overview.fxml"));
+            add = FXMLLoader.load(getClass().getResource("Register.fxml"));
+            list = FXMLLoader.load(getClass().getResource("Register.fxml"));
             setNode(home);
         } catch (IOException ex) {
             Logger.getLogger(DashboardController.class.getName()).log(Level.SEVERE, null, ex);
