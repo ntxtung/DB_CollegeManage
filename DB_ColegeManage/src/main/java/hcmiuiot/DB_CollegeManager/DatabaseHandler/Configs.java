@@ -1,4 +1,4 @@
-package hcmiuiot.DB_CollegeManager.Classes;
+package hcmiuiot.DB_CollegeManager.DatabaseHandler;
 
 public class Configs {
 

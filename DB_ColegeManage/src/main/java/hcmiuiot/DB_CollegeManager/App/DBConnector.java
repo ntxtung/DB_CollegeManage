@@ -18,7 +18,6 @@ public class DBConnector {
 			Connection connect = DriverManager.getConnection(url, username, password);
 			return connect;
 		} catch (ClassNotFoundException | SQLException e) {
-			// TODO Auto-generated catch block
 			Logger.getLogger(DBConnector.class.getName()).log(Level.SEVERE, null, e);
 		}
 		return null;
