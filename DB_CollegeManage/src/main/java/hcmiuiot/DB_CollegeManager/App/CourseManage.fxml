@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXTreeTableView?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="559.0" prefWidth="840.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <JFXTreeTableView layoutX="14.0" layoutY="145.0" prefHeight="400.0" prefWidth="814.0" />
+      <ChoiceBox layoutX="14.0" layoutY="88.0" prefWidth="150.0" />
+      <ChoiceBox layoutX="180.0" layoutY="88.0" prefHeight="26.0" prefWidth="415.0" />
+   </children>
+</AnchorPane>
