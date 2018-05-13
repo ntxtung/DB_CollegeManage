@@ -26,7 +26,7 @@
                <children>
                   <ImageView fitHeight="80.0" fitWidth="79.0" layoutX="160.0" layoutY="21.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="160.0" AnchorPane.rightAnchor="160.0" AnchorPane.topAnchor="21.0">
                      <image>
-                        <Image url="@../Res/logo/hcmiu_logo.png" />
+                        <Image url="file:./res/logo/hcmiu_logo.png" />
                      </image>
                   </ImageView>
                   <JFXTextField fx:id="txtUsername" labelFloat="true" layoutX="54.0" layoutY="134.0" maxWidth="297.0" minWidth="226.0" prefHeight="31.0" prefWidth="297.0" promptText="Username" AnchorPane.bottomAnchor="242.0">
@@ -46,7 +46,7 @@
                   </JFXButton>
                   <ImageView fx:id="imgProgress" fitHeight="64.0" fitWidth="64.0" layoutX="168.0" layoutY="307.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../Res/icons/Preloader_9.gif" />
+                        <Image url="file:./res/icons/Preloader_9.gif" />
                      </image>
                   </ImageView>
                </children>
