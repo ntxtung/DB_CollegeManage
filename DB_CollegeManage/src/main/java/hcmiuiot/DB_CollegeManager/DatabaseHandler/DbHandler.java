@@ -1,28 +1,34 @@
 package hcmiuiot.DB_CollegeManager.DatabaseHandler;
 
+import java.sql.Statement;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.SQLException;
 
-public class DbHandler extends Configs {
+public class DbHandler {
+	
+	private static DbHandler instance;
 
-    protected Connection dbconnection;
+    private static Connection conn;
+    private static Statement statement;
+    
+    public static DbHandler getInstance() {
+    	if (instance == null) {
+    		instance = new DbHandler();
+    		instance.getConnection();
+    	}
+    	return instance;
+    }
 
-    public Connection getConnection() {
-        final String ConnectionString = "jdbc:mysql://" + Configs.dbhost + ":" + Configs.dbport + "/" + Configs.dbname;
+    public static Connection getConnection() {
+        String ConnectionString = "jdbc:mysql://" + Configs.dbHostname + ":" + Configs.dbPort + "/" + Configs.dbName;
         try {
             Class.forName("com.mysql.jdbc.Driver");
-        } catch (ClassNotFoundException e) {
-            System.err.println(e.getMessage());
+            conn = DriverManager.getConnection(ConnectionString, Configs.dbUsername, Configs.dbPassword);
+            statement = conn.createStatement();
+        } catch (Exception e) {
+        	System.err.println(e.getMessage());
         }
-
-        try {
-            dbconnection = DriverManager.getConnection(ConnectionString, Configs.dbuser, Configs.dbpass);
-
-        } catch (SQLException e) {
-            System.err.println(e.getMessage());
-        }
-        return dbconnection;
+        return conn;
     }
 
 }
