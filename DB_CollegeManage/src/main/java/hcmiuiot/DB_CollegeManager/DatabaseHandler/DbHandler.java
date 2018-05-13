@@ -3,6 +3,8 @@ package hcmiuiot.DB_CollegeManager.DatabaseHandler;
 import java.sql.Statement;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class DbHandler {
 	
@@ -29,6 +31,15 @@ public class DbHandler {
         	System.err.println(e.getMessage());
         }
         return conn;
+    }
+    
+    public static ResultSet sqlExecute(String sql) {
+    	try {
+			return statement.executeQuery(sql);
+		} catch (SQLException e) {
+			System.err.println(e.getMessage());
+		}
+    	return null;
     }
 
 }
