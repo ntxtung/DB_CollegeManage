@@ -53,7 +53,7 @@ public class LoginController implements Initializable{
 	}
 	
 	@FXML
-    private void login(ActionEvent event) {
+    private void onLogin(ActionEvent event) {
 
         imgProgress.setVisible(true);
         PauseTransition pauseTransition = new PauseTransition();

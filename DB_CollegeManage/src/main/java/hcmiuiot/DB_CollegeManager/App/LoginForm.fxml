@@ -34,12 +34,12 @@
                         <Font name="Roboto Light" size="14.0" />
                      </font>
                   </JFXTextField>
-                  <JFXPasswordField fx:id="txtPassword" labelFloat="true" layoutX="54.0" layoutY="199.0" maxWidth="297.0" minWidth="297.0" prefHeight="31.0" prefWidth="297.0" promptText="Password">
+                  <JFXPasswordField fx:id="txtPassword" labelFloat="true" layoutX="54.0" layoutY="199.0" maxWidth="297.0" minWidth="297.0" onAction="#onLogin" prefHeight="31.0" prefWidth="297.0" promptText="Password">
                      <font>
                         <Font name="Roboto Light" size="14.0" />
                      </font>
                   </JFXPasswordField>
-                  <JFXButton fx:id="btnLogin" buttonType="RAISED" layoutX="154.0" layoutY="258.0" onAction="#login" prefHeight="37.0" prefWidth="91.0" style="-fx-background-color: #2d378e;" text="Login" textFill="WHITE" AnchorPane.bottomAnchor="111.6" AnchorPane.leftAnchor="154.0" AnchorPane.rightAnchor="154.0">
+                  <JFXButton fx:id="btnLogin" buttonType="RAISED" layoutX="154.0" layoutY="258.0" onAction="#onLogin" prefHeight="37.0" prefWidth="91.0" style="-fx-background-color: #2d378e;" text="Login" textFill="WHITE" AnchorPane.bottomAnchor="111.6" AnchorPane.leftAnchor="154.0" AnchorPane.rightAnchor="154.0">
                      <font>
                         <Font name="Roboto Bold" size="14.0" />
                      </font>
