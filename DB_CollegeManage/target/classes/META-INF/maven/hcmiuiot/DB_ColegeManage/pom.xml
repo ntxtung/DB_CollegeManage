@@ -7,7 +7,7 @@
   <version>0.0.1-SNAPSHOT</version>
   <packaging>jar</packaging>
 
-  <name>DB_ColegeManage</name>
+  <name>DB_CollegeManage</name>
   <url>http://maven.apache.org</url>
 
   <properties>
@@ -56,5 +56,12 @@
     	<artifactId>commons-codec</artifactId>
     	<version>1.11</version>
     </dependency>
+    <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+	<dependency>
+   	 	<groupId>mysql</groupId>
+    	<artifactId>mysql-connector-java</artifactId>
+    	<version>8.0.11</version>
+	</dependency>
+    
   </dependencies>
 </project>
