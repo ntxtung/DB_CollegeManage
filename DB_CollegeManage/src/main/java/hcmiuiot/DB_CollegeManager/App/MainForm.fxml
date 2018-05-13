@@ -10,6 +10,7 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
@@ -21,7 +22,7 @@
       <AnchorPane prefHeight="200.0" prefWidth="200.0" />
       <VBox prefHeight="720.0" prefWidth="1300.0">
          <children>
-            <JFXToolbar fx:id="toolBar" prefHeight="50.0" prefWidth="1300.0" styleClass="toolbar">
+            <JFXToolbar fx:id="toolBar" prefHeight="50.0" prefWidth="1300.0" style="-fx-background-color: #f4f4f4;" styleClass="toolbar">
                <right>
                   <HBox fx:id="toolBarRight" prefHeight="40.0" prefWidth="26.0" BorderPane.alignment="CENTER">
                      <children>
@@ -34,18 +35,21 @@
                   </HBox>
                </right>
                <center>
-                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="STUDENT MANAGEMENT SYSTEM" wrappingWidth="273.13671875" BorderPane.alignment="CENTER">
+                  <Text fill="#2c364f" strokeType="OUTSIDE" strokeWidth="0.0" text="STUDENT MANAGEMENT SYSTEM" wrappingWidth="273.13671875" BorderPane.alignment="CENTER">
                      <font>
                         <Font name="Roboto Medium" size="17.0" />
                      </font>
                   </Text>
                </center>
+               <left>
+                  <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #2d3750;" BorderPane.alignment="CENTER" />
+               </left>
             </JFXToolbar>
             <HBox prefHeight="680.0" prefWidth="1300.0">
                <children>
-                  <AnchorPane fx:id="sideAnchor" prefHeight="680.0" prefWidth="200.0" styleClass="side-bar">
+                  <AnchorPane fx:id="sideAnchor" prefHeight="680.0" prefWidth="200.0" style="-fx-background-color: #2d3750;" styleClass="side-bar">
                      <children>
-                        <GridPane layoutX="3.0" layoutY="13.0" prefHeight="245.0" prefWidth="189.0">
+                        <GridPane layoutX="3.0" layoutY="234.0" prefHeight="302.0" prefWidth="189.0">
                            <columnConstraints>
                               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
                            </columnConstraints>
@@ -57,48 +61,61 @@
                               <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
                            </rowConstraints>
                            <children>
-                              <JFXButton fx:id="btnHome" onAction="#openHome" prefHeight="36.0" prefWidth="189.0" styleClass="side-buttons" text="Home" textFill="#757575">
+                              <JFXButton fx:id="btnHome" onAction="#openHome" prefHeight="36.0" prefWidth="189.0" styleClass="side-buttons" text="Home" textFill="WHITE">
                                  <font>
                                     <Font name="Roboto Medium" size="13.0" />
                                  </font>
                                  <graphic>
-                                    <FontAwesomeIconView fill="#757575" glyphName="DASHBOARD" size="16.0" wrappingWidth="40.0" />
+                                    <FontAwesomeIconView fill="#4f4d8b" glyphName="DASHBOARD" size="16.0" textAlignment="CENTER" wrappingWidth="40.0" />
                                  </graphic>
                               </JFXButton>
-                              <JFXButton fx:id="btnAdd" onAction="#openAddStudent" prefHeight="36.0" prefWidth="189.0" styleClass="side-buttons" text="Add student" textFill="#757575" GridPane.rowIndex="1">
+                              <JFXButton fx:id="btnAdd" onAction="#openAddStudent" prefHeight="36.0" prefWidth="189.0" styleClass="side-buttons" text="Add student" textFill="WHITE" GridPane.rowIndex="1">
                                  <font>
                                     <Font name="Roboto Medium" size="13.0" />
                                  </font>
                                  <graphic>
-                                    <FontAwesomeIconView fill="#757575" glyphName="PLUS_SQUARE" size="16.0" wrappingWidth="40.0" />
+                                    <FontAwesomeIconView fill="#4f4d8b" glyphName="PLUS_SQUARE" size="16.0" textAlignment="CENTER" wrappingWidth="40.0" />
                                  </graphic>
                               </JFXButton>
-                              <JFXButton fx:id="btnView" onAction="#openListStudent" prefHeight="36.0" prefWidth="189.0" styleClass="side-buttons" text="View students" textFill="#757575" GridPane.rowIndex="2">
+                              <JFXButton fx:id="btnView" onAction="#openListStudent" prefHeight="36.0" prefWidth="189.0" styleClass="side-buttons" text="View students" textFill="WHITE" GridPane.rowIndex="2">
                                  <font>
                                     <Font name="Roboto Medium" size="13.0" />
                                  </font>
                                  <graphic>
-                                    <FontAwesomeIconView fill="#757575" glyphName="EYE" size="16.0" wrappingWidth="40.0" />
+                                    <FontAwesomeIconView fill="#4f4d8b" glyphName="EYE" size="16.0" textAlignment="CENTER" wrappingWidth="40.0" />
                                  </graphic>
                               </JFXButton>
-                              <JFXButton fx:id="btnLogout" onAction="#logOff" prefHeight="36.0" prefWidth="189.0" styleClass="side-buttons" text="Log out" textFill="#757575" GridPane.rowIndex="3">
+                              <JFXButton fx:id="btnLogout" onAction="#logOff" prefHeight="36.0" prefWidth="189.0" styleClass="side-buttons" text="Log out" textFill="WHITE" GridPane.rowIndex="3">
                                  <font>
                                     <Font name="Roboto Medium" size="13.0" />
                                  </font>
                                  <graphic>
-                                    <FontAwesomeIconView fill="#757575" glyphName="SIGN_OUT" size="16.0" wrappingWidth="40.0" />
+                                    <FontAwesomeIconView fill="#4f4d8b" glyphName="SIGN_OUT" size="16.0" textAlignment="CENTER" wrappingWidth="40.0" />
                                  </graphic>
                               </JFXButton>
-                              <JFXButton fx:id="btnClose" onAction="#exit" prefHeight="36.0" prefWidth="189.0" styleClass="side-buttons" text="Exit" textFill="#757575" GridPane.rowIndex="4">
+                              <JFXButton fx:id="btnClose" onAction="#exit" prefHeight="36.0" prefWidth="189.0" styleClass="side-buttons" text="Exit" textFill="WHITE" GridPane.rowIndex="4">
                                  <font>
                                     <Font name="Roboto Medium" size="13.0" />
                                  </font>
                                  <graphic>
-                                    <FontAwesomeIconView fill="#757575" glyphName="CLOSE" size="16.0" wrappingWidth="40.0" />
+                                    <FontAwesomeIconView fill="#4f4d8b" glyphName="CLOSE" size="16.0" textAlignment="CENTER" wrappingWidth="40.0" />
                                  </graphic>
                               </JFXButton>
                            </children>
                         </GridPane>
+                        <Pane prefHeight="234.0" prefWidth="200.0" style="-fx-background-color: #2d3750;">
+                           <children>
+                              <Label layoutX="64.0" layoutY="150.0" prefHeight="45.0" prefWidth="100.0" text="Khoa Tran" textAlignment="CENTER" textFill="WHITE">
+                                 <font>
+                                    <Font name="Roboto Medium" size="17.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="64.0" layoutY="195.0" text="ITITIU16101" textFill="WHITE">
+                                 <font>
+                                    <Font name="Roboto" size="12.0" />
+                                 </font>
+                              </Label>
+                           </children></Pane>
                      </children>
                   </AnchorPane>
                   <AnchorPane fx:id="holderPane" prefHeight="680.0" prefWidth="1100.0" />

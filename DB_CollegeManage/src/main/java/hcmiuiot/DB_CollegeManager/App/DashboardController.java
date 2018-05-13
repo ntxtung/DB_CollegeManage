@@ -113,7 +113,21 @@ public class DashboardController implements Initializable {
 
     @FXML
     private void openAddStudent(ActionEvent event) {
-        setNode(add);
+//        setNode(add);
+    	 
+		try {
+//			FXMLLoader fxmlLoader = new FXMLLoader();
+//			fxmlLoader.setLocation(getClass().getResource("FXMLDocument.fxml"));
+//			holderPane = fxmlLoader.load();
+//			FXMLDocumentController c = (FXMLDocumentController) fxmlLoader.getController();
+			 Parent fxml = FXMLLoader.load(getClass().getResource("RegisterUI.fxml"));
+			 holderPane.getChildren().removeAll();
+	    	 holderPane.getChildren().setAll(fxml);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	
     }
 
     @FXML
