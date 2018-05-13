@@ -14,26 +14,24 @@ public class DbHandler {
     private static Statement statement;
     
     public static DbHandler getInstance() {
-    	if (instance == null) {
-    		instance = new DbHandler();
-    		instance.getConnection();
-    	}
     	return instance;
     }
-
-    public static Connection getConnection() {
-        String ConnectionString = "jdbc:mysql://" + Configs.dbHostname + ":" + Configs.dbPort + "/" + Configs.dbName;
+    
+    public static DbHandler login(String username, String password) {
+    	String ConnectionString = "jdbc:mysql://" + Configs.dbHostname + ":" + Configs.dbPort + "/" + Configs.dbName;
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            conn = DriverManager.getConnection(ConnectionString, Configs.dbUsername, Configs.dbPassword);
+            conn = DriverManager.getConnection(ConnectionString, username, password);
             statement = conn.createStatement();
+            instance = new DbHandler();
         } catch (Exception e) {
         	System.err.println(e.getMessage());
+        	instance = null;
         }
-        return conn;
+        return instance;
     }
     
-    public static ResultSet sqlExecute(String sql) {
+    public static ResultSet execSQL(String sql) {
     	try {
 			return statement.executeQuery(sql);
 		} catch (SQLException e) {

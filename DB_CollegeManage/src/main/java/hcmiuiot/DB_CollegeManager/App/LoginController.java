@@ -2,9 +2,13 @@ package hcmiuiot.DB_CollegeManager.App;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import org.apache.commons.codec.digest.DigestUtils;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
@@ -13,7 +17,9 @@ import com.jfoenix.validation.RequiredFieldValidator;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import hcmiuiot.DB_CollegeManager.DatabaseHandler.DbHandler;
 import javafx.animation.PauseTransition;
+import javafx.application.Platform;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -21,7 +27,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
@@ -40,12 +48,6 @@ public class LoginController implements Initializable{
     @FXML
     private ImageView imgProgress;
 
-    @FXML
-    private void handleButtonAction(ActionEvent event) {
-        System.out.println("You clicked me!");
-        label.setText("Hello World!");
-    }
-    
     @Override
 	public void initialize(URL location, ResourceBundle resources) {
 		handleValidation();
@@ -56,14 +58,34 @@ public class LoginController implements Initializable{
     private void onLogin(ActionEvent event) {
 
         imgProgress.setVisible(true);
+        
+        String username = txtUsername.getText();
+        String password = txtPassword.getText();
+        
         PauseTransition pauseTransition = new PauseTransition();
-        pauseTransition.setDuration(Duration.seconds(3));
-        pauseTransition.setOnFinished(ev -> {
-            completeLogin();
-
-        });
+        pauseTransition.setDuration(Duration.seconds(3));      
+        
+        if (DbHandler.login(username, password) != null) {
+        	pauseTransition.setOnFinished(ev -> {
+	            completeLogin(); 
+        	});
+        } else {
+        	
+        	pauseTransition.setOnFinished(ev -> {
+        		Platform.runLater(() -> {
+        			Alert al = new Alert(AlertType.ERROR);
+                	al.setContentText("Login failed!");
+                	al.showAndWait();
+                	imgProgress.setVisible(false);
+        		});
+        		
+        	});
+        	
+        }
+ 
         pauseTransition.play();
     }
+	
 
     private void handleValidation() {
         RequiredFieldValidator fieldValidator = new RequiredFieldValidator();
@@ -89,6 +111,7 @@ public class LoginController implements Initializable{
     }
 
     private void completeLogin() {
+    	imgProgress.setVisible(false);
         btnLogin.getScene().getWindow().hide();
         try {
             imgProgress.setVisible(false);
