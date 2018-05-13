@@ -18,30 +18,7 @@
 
 <StackPane fx:id="stackPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1300.0" stylesheets="@custom.css" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hcmiuiot.DB_CollegeManager.App.DashboardController">
    <children>
-      <AnchorPane prefHeight="200.0" prefWidth="200.0">
-         <children>
-            <VBox fx:id="overflowContainer" prefHeight="104.0" prefWidth="164.0" styleClass="card-white">
-               <children>
-                  <JFXButton fx:id="btnLogOut" onAction="#logOff" prefHeight="52.0" prefWidth="163.0" style="-fx-alignment: left;" text="Log out">
-                     <font>
-                        <Font name="Roboto Medium" size="13.0" />
-                     </font>
-                     <graphic>
-                        <MaterialDesignIconView fill="#838080" glyphName="LOGOUT" size="16.0" wrappingWidth="36.0" />
-                     </graphic>
-                  </JFXButton>
-                  <JFXButton fx:id="btnExit" layoutX="10.0" layoutY="10.0" onAction="#exit" prefHeight="53.0" prefWidth="163.0" style="-fx-alignment: left;" text="Exit">
-                     <font>
-                        <Font name="Roboto Medium" size="13.0" />
-                     </font>
-                     <graphic>
-                        <MaterialDesignIconView fill="#838080" glyphName="POWER" size="16.0" wrappingWidth="36.0" />
-                     </graphic>
-                  </JFXButton>
-               </children>
-            </VBox>
-         </children>
-      </AnchorPane>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" />
       <VBox prefHeight="720.0" prefWidth="1300.0">
          <children>
             <JFXToolbar fx:id="toolBar" prefHeight="50.0" prefWidth="1300.0" styleClass="toolbar">
@@ -88,7 +65,7 @@
                                     <FontAwesomeIconView fill="#757575" glyphName="DASHBOARD" size="16.0" wrappingWidth="40.0" />
                                  </graphic>
                               </JFXButton>
-                              <JFXButton fx:id="btnAdd" onAction="#openAddStudent" prefHeight="36.0" prefWidth="189.0" styleClass="side-buttons" text="Add sudent" textFill="#757575" GridPane.rowIndex="1">
+                              <JFXButton fx:id="btnAdd" onAction="#openAddStudent" prefHeight="36.0" prefWidth="189.0" styleClass="side-buttons" text="Add student" textFill="#757575" GridPane.rowIndex="1">
                                  <font>
                                     <Font name="Roboto Medium" size="13.0" />
                                  </font>
