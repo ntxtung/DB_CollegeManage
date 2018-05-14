@@ -33,7 +33,7 @@ public class DbHandler {
         return conn;
     }
     
-    public static ResultSet sqlExecute(String sql) {
+    public static ResultSet ExecSQL(String sql) {
     	try {
 			return statement.executeQuery(sql);
 		} catch (SQLException e) {
