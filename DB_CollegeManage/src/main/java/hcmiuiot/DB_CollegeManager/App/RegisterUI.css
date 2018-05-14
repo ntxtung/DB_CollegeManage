@@ -48,6 +48,7 @@
 .tree-table-view .tree-table-cell{
     -fx-border-width:0 0 0 0;
     -fx-padding : 16 0 16 0 ;
+    -fx-alignment: CENTER;
 }
 
 .tree-table-view .column-overlay{
