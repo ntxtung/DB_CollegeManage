@@ -16,7 +16,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
@@ -57,14 +56,14 @@ public class DashboardController implements Initializable {
 
     @FXML
     private AnchorPane holderPane;
-    private Parent home, add, list;
+    
+    private AnchorPane home, add, list;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         createPages();
     }
 
-    //Set selected node to a content holder
     private void setNode(Node node) {
         holderPane.getChildren().clear();
         holderPane.getChildren().add((Node) node);
@@ -78,11 +77,21 @@ public class DashboardController implements Initializable {
         ft.play();
     }
 
+    private void fixedBorderAnchor(AnchorPane pane) {
+    	holderPane.setLeftAnchor(pane, 0.0);
+    	holderPane.setRightAnchor(pane, 0.0);
+    	holderPane.setTopAnchor(pane, 0.0);
+    	holderPane.setBottomAnchor(pane, 0.0);
+    }
+    
     private void createPages() {
         try {
             home = FXMLLoader.load(getClass().getResource("Overview.fxml"));
-            add = FXMLLoader.load(getClass().getResource("Register.fxml"));
-//            list = FXMLLoader.load(getClass().getResource("SubjectRegistration.fxml"));
+            add = FXMLLoader.load(getClass().getResource("CourseManage.fxml"));
+            list = FXMLLoader.load(getClass().getResource("CourseManage.fxml"));
+            fixedBorderAnchor(home);
+            fixedBorderAnchor(add);
+            fixedBorderAnchor(list);
             setNode(home);
         } catch (IOException ex) {
             Logger.getLogger(DashboardController.class.getName()).log(Level.SEVERE, null, ex);
