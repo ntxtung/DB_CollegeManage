@@ -1,6 +1,7 @@
 package hcmiuiot.DB_CollegeManager.App;
 
 import hcmiuiot.DB_CollegeManage.Extensions.ExportUtils;
+import hcmiuiot.DB_CollegeManager.DatabaseHandler.DbHandler;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -14,7 +15,6 @@ public class App extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		ExportUtils.exportResultSet("", null, "hello.xlsx");
 		Parent root = FXMLLoader.load(getClass().getResource("LoginForm.fxml"));
 		Scene scene = new Scene(root);
 		primaryStage.setScene(scene);
