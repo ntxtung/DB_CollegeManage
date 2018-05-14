@@ -20,7 +20,7 @@ public class DbHandler {
     public static DbHandler login(String username, String password) {
     	String ConnectionString = "jdbc:mysql://" + Configs.dbHostname + ":" + Configs.dbPort + "/" + Configs.dbName;
         try {
-            Class.forName("com.mysql.jdbc.Driver");
+            Class.forName("com.mysql.cj.jdbc.Driver");
             conn = DriverManager.getConnection(ConnectionString, username, password);
             statement = conn.createStatement();
             instance = new DbHandler();
