@@ -3,6 +3,7 @@ package hcmiuiot.DB_CollegeManager.DatabaseHandler;
 import java.sql.Statement;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -38,6 +39,15 @@ public class DbHandler {
 			System.err.println(e.getMessage());
 		}
     	return null;
+    }
+    
+    public static PreparedStatement getPreparedStatement(String preparedStatementStr) {
+    	try {
+			return conn.prepareStatement(preparedStatementStr);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
     }
 
 }
