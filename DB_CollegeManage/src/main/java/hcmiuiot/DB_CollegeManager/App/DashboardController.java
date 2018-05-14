@@ -100,7 +100,7 @@ public class DashboardController implements Initializable {
         try {
             home = FXMLLoader.load(getClass().getResource("Overview.fxml"));
             add = FXMLLoader.load(getClass().getResource("Register.fxml"));
-            list = FXMLLoader.load(getClass().getResource("Register.fxml"));
+            list = FXMLLoader.load(getClass().getResource("DeptInstView.fxml"));
             setNode(home);
         } catch (IOException ex) {
             Logger.getLogger(DashboardController.class.getName()).log(Level.SEVERE, null, ex);
