@@ -24,17 +24,11 @@ import javafx.util.Duration;
 
 public class DashboardController implements Initializable {
 	
-	@FXML
-    private StackPane stackPane;
+    @FXML
+    private AnchorPane stackPane;
 
     @FXML
     private JFXToolbar toolBar;
-
-    @FXML
-    private HBox toolBarRight;
-
-    @FXML
-    private Label lblMenu;
 
     @FXML
     private AnchorPane sideAnchor;
@@ -96,7 +90,6 @@ public class DashboardController implements Initializable {
         } catch (IOException ex) {
             Logger.getLogger(DashboardController.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }
 
     @FXML
