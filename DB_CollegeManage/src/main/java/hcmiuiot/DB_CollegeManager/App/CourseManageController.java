@@ -16,6 +16,7 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -218,10 +219,11 @@ public class CourseManageController implements Initializable {
 		
 		chBoxDepartPick.setItems(deptName);
 		chBoxDepartPick.getSelectionModel().selectFirst();
-//		chBoxDepartPick.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
+//		chBoxDepartPick.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<>() {
 //		      @Override
 //		      public void changed(ObservableValue<? extends Number> observableValue, Number number, Number number2) {
-//		        System.out.println(box.getItems().get((Integer) number2));
+//		    	  ResultSet res;
+//		    	  System.out.println(chBoxDepartPick.);
 //		      }
 //		    });
 	}
