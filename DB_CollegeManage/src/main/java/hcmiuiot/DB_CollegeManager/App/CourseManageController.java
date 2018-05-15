@@ -6,7 +6,6 @@ import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 import com.jfoenix.controls.JFXTextField;
-import com.jfoenix.controls.JFXTreeTableColumn;
 import com.jfoenix.controls.JFXTreeTableView;
 import com.jfoenix.controls.RecursiveTreeItem;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
@@ -58,7 +57,7 @@ public class CourseManageController implements Initializable {
 	private JFXTreeTableView<Course> tableView;
 
 	@FXML
-	private ChoiceBox<?> chBoxDepartPick;
+	private ChoiceBox chBoxDepartPick;
 
 	@FXML
 	private JFXTextField txtFieldSearch;
@@ -93,11 +92,12 @@ public class CourseManageController implements Initializable {
     @FXML
     private TreeTableColumn<?, ?> action;
 
-	private ResultSet result;
+	private ResultSet result, deptList;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		loadDB();
+		loadDeptList();
 
 		courseID.setCellValueFactory(
 				new Callback<TreeTableColumn.CellDataFeatures<Course, String>, ObservableValue<String>>() {
@@ -170,7 +170,12 @@ public class CourseManageController implements Initializable {
 						return param.getValue().getValue().room;
 					}
 				});
+		updateTableView();
+		updateChoiceBoxView();
 
+	}
+	
+	private void updateTableView() {
 		ObservableList<Course> courses = FXCollections.observableArrayList();
 
 		try {
@@ -197,10 +202,28 @@ public class CourseManageController implements Initializable {
 				maxSlot);
 		tableView.setRoot(root);
 		tableView.setShowRoot(false);
-
 	}
-
-	public void loadDB() {
+	
+	private void updateChoiceBoxView() {
+		ObservableList<String> deptName = FXCollections.observableArrayList();
+		deptName.add("--All--");
+		try {
+			while (deptList.next()) {
+				String dept = deptList.getString("name");
+				deptName.add(dept);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		chBoxDepartPick.setItems(deptName);
+	}
+	
+	private void loadDeptList() {
+		deptList = DbHandler.execSQL("SELECT name FROM topicS.Department");
+	}
+	
+	private void loadDB() {
 		result = DbHandler.execSQL("SELECT * FROM topicS.Course");
 	}
 

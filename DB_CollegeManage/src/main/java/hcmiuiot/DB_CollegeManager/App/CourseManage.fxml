@@ -6,22 +6,22 @@
 <?import javafx.scene.control.TreeTableColumn?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="592.0" prefWidth="905.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hcmiuiot.DB_CollegeManager.App.CourseManageController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="592.0" prefWidth="980.0" stylesheets="@CourseManage.css" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hcmiuiot.DB_CollegeManager.App.CourseManageController">
    <children>
       <JFXTreeTableView fx:id="tableView" layoutX="14.0" layoutY="154.0" prefHeight="430.0" prefWidth="890.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="151.60000000000002">
          <columns>
-            <TreeTableColumn fx:id="courseID" prefWidth="75.0" text="Course ID" />
-            <TreeTableColumn fx:id="departmentID" prefWidth="75.0" text="Dept ID" />
-            <TreeTableColumn fx:id="name" prefWidth="75.0" text="Name" />
-            <TreeTableColumn fx:id="beginDate" prefWidth="75.0" text="Begin Date" />
-            <TreeTableColumn fx:id="endDate" prefWidth="75.0" text="End Date" />
-            <TreeTableColumn fx:id="fee" prefWidth="75.0" text="Fee" />
-            <TreeTableColumn fx:id="numberOfCredits" prefWidth="75.0" text="Number of credits" />
-            <TreeTableColumn fx:id="maxSlot" prefWidth="75.0" text="Max Slot" />
-            <TreeTableColumn fx:id="room" prefWidth="75.0" text="Room" />
-            <TreeTableColumn prefWidth="75.0" text="Action" />
+            <TreeTableColumn fx:id="courseID" prefWidth="75.99997234344482" text="Course ID" />
+            <TreeTableColumn fx:id="departmentID" prefWidth="96.80001831054688" text="Dept ID" />
+            <TreeTableColumn fx:id="name" prefWidth="100.80003356933594" text="Name" />
+            <TreeTableColumn fx:id="beginDate" prefWidth="77.5999755859375" text="Begin Date" />
+            <TreeTableColumn fx:id="endDate" prefWidth="90.39990234375" text="End Date" />
+            <TreeTableColumn fx:id="fee" prefWidth="90.4000244140625" text="Fee" />
+            <TreeTableColumn fx:id="numberOfCredits" prefWidth="87.20001220703125" text="Number of credits" />
+            <TreeTableColumn fx:id="maxSlot" prefWidth="104.79998779296875" text="Max Slot" />
+            <TreeTableColumn fx:id="room" prefWidth="102.40008544921875" text="Room" />
+            <TreeTableColumn fx:id="action" prefWidth="132.800048828125" text="Action" />
          </columns></JFXTreeTableView>
       <ChoiceBox fx:id="chBoxDepartPick" layoutX="14.0" layoutY="96.0" prefWidth="150.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="96.0" />
-      <JFXTextField fx:id="txtFieldSearch" layoutX="179.0" layoutY="96.0" prefHeight="26.0" prefWidth="702.0" AnchorPane.leftAnchor="179.0" AnchorPane.rightAnchor="23.600000000000023" AnchorPane.topAnchor="96.0" />
+      <JFXTextField fx:id="txtFieldSearch" layoutX="179.0" layoutY="104.0" prefHeight="26.0" prefWidth="702.0" AnchorPane.leftAnchor="179.0" AnchorPane.rightAnchor="23.600000000000023" AnchorPane.topAnchor="104.0" />
    </children>
 </AnchorPane>
