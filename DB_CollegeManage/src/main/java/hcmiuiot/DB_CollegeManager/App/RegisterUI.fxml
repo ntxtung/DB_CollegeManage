@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXTreeTableView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.FlowPane?>
@@ -8,8 +9,10 @@
    <children>
       <FlowPane fx:id="main" prefHeight="675.0" prefWidth="1100.0">
          <children>
-            <JFXTreeTableView fx:id="treeView" prefHeight="675.0" prefWidth="1100.0" stylesheets="@RegisterUI.css" />
+            <JFXTreeTableView fx:id="treeView" prefHeight="375.0" prefWidth="1100.0" stylesheets="@RegisterUI.css" />
+            <JFXTreeTableView fx:id="treeView1" layoutX="10.0" layoutY="10.0" prefHeight="300.0" prefWidth="1100.0" stylesheets="@RegisterUI.css" />
          </children>
       </FlowPane>
+      <JFXButton fx:id="addCourse" onMouseClicked="#addCourse" text="button" />
    </children>
 </AnchorPane>

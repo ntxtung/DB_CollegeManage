@@ -1,5 +1,6 @@
 package hcmiuiot.DB_CollegeManager.App;
 
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTreeTableColumn;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 
@@ -27,6 +28,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableColumn;
+import javafx.scene.input.MouseEvent;
 import javafx.util.Callback;
 
 public class RegisterUIController implements Initializable {
@@ -37,13 +39,20 @@ public class RegisterUIController implements Initializable {
     private JFXTreeTableView<Course> treeView;
     private DBConnector db;
 	private ResultSet result,available;
+
+    @FXML
+    private JFXButton addCourse;
+
+    @FXML
+    private JFXTreeTableView<SelectedCourse> treeView1;
     @Override
     public void initialize(URL url, ResourceBundle rb) {
     	
     	db = new DBConnector();
 		loadDB();
 		
-		
+		// T  A  B  L  E  1  //
+//=================================================================================================================================================//		
         JFXTreeTableColumn<Course, String> courseID = new JFXTreeTableColumn<>("CourseID");
         courseID.setPrefWidth(150);
         courseID.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<Course, String>, ObservableValue<String>>() {
@@ -165,14 +174,116 @@ public class RegisterUIController implements Initializable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-   
+        
         
 
         final TreeItem<Course> root = new RecursiveTreeItem<Course>(Courses, RecursiveTreeObject::getChildren);
         treeView.getColumns().setAll(courseID, departmentID, Name,BeginDate,EndDate,Fee,NumberOfCredits,MaxSlot,AvailableSlot,Room);
         treeView.setRoot(root);
         treeView.setShowRoot(false);
+        
+//===================================================================================================================================================================================//
+        // T  A  B  L E 2 //
+        
+        
+        JFXTreeTableColumn<SelectedCourse, String> selectedCourseID = new JFXTreeTableColumn<>("CourseID");
+        selectedCourseID.setPrefWidth(150);
+        selectedCourseID.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<SelectedCourse, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<SelectedCourse, String> param) {
+                return param.getValue().getValue().courseID;
+            }
+        });
 
+        JFXTreeTableColumn<SelectedCourse, String> selectedDepartmentID = new JFXTreeTableColumn<>("Department");
+        selectedDepartmentID.setPrefWidth(150);
+        selectedDepartmentID.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<SelectedCourse, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<SelectedCourse, String> param) {
+                return param.getValue().getValue().name;
+            }
+        });
+
+        JFXTreeTableColumn<SelectedCourse, String> selectedName = new JFXTreeTableColumn<>("Name");
+        selectedName.setPrefWidth(150);
+        selectedName.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<SelectedCourse, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<SelectedCourse, String> param) {
+                return param.getValue().getValue().deptID;
+            }
+        });
+        
+        
+        JFXTreeTableColumn<SelectedCourse, String> selectedBeginDate = new JFXTreeTableColumn<>("Begin Date");
+        selectedBeginDate.setPrefWidth(150);
+        selectedBeginDate.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<SelectedCourse, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<SelectedCourse, String> param) {
+                return param.getValue().getValue().beginDate;
+            }
+        });
+        
+        JFXTreeTableColumn<SelectedCourse, String> selectedEndDate = new JFXTreeTableColumn<>("End Date");
+        selectedEndDate.setPrefWidth(150);
+        selectedEndDate.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<SelectedCourse, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<SelectedCourse, String> param) {
+                return param.getValue().getValue().endDate;
+            }
+        });
+        
+        JFXTreeTableColumn<SelectedCourse, Number> selectedFee = new JFXTreeTableColumn<>("Fee");
+        selectedFee.setPrefWidth(150);
+        selectedFee.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<SelectedCourse, Number>, ObservableValue<Number>>() {
+            @Override
+            public ObservableValue<Number> call(TreeTableColumn.CellDataFeatures<SelectedCourse,Number> param) {
+                return param.getValue().getValue().fee;
+            }
+        });
+        
+        JFXTreeTableColumn<SelectedCourse, Number> selectedNumberOfCredits = new JFXTreeTableColumn<>("Number of Credits");
+        selectedNumberOfCredits.setPrefWidth(150);
+        selectedNumberOfCredits.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<SelectedCourse, Number>, ObservableValue<Number>>() {
+            @Override
+            public ObservableValue<Number> call(TreeTableColumn.CellDataFeatures<SelectedCourse,Number> param) {
+                return param.getValue().getValue().numberOfCredit;
+            }
+        });
+        
+        JFXTreeTableColumn<SelectedCourse, Number> selectedMaxSlot = new JFXTreeTableColumn<>("Max Slot");
+        selectedMaxSlot.setPrefWidth(150);
+        selectedMaxSlot.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<SelectedCourse, Number>, ObservableValue<Number>>() {
+            @Override
+            public ObservableValue<Number> call(TreeTableColumn.CellDataFeatures<SelectedCourse,Number> param) {
+                return param.getValue().getValue().maxSlot;
+            }
+        });
+        
+        JFXTreeTableColumn<SelectedCourse, Number> selectedAvailableSlot = new JFXTreeTableColumn<>("Available Slot");
+        selectedAvailableSlot.setPrefWidth(150);
+        selectedAvailableSlot.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<SelectedCourse, Number>, ObservableValue<Number>>() {
+            @Override
+            public ObservableValue<Number> call(TreeTableColumn.CellDataFeatures<SelectedCourse,Number> param) {
+                return param.getValue().getValue().availableSlot;
+            }
+        });
+        
+        JFXTreeTableColumn<SelectedCourse, String> selectedRoom = new JFXTreeTableColumn<>("Room");
+        selectedRoom.setPrefWidth(150);
+        selectedRoom.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<SelectedCourse, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<SelectedCourse, String> param) {
+                return param.getValue().getValue().room;
+            }
+        });
+
+        ObservableList<SelectedCourse> SelectedCourses = FXCollections.observableArrayList();
+        final TreeItem<SelectedCourse> root1 = new RecursiveTreeItem<SelectedCourse>(SelectedCourses, RecursiveTreeObject::getChildren);
+        treeView1.getColumns().setAll(selectedCourseID, selectedDepartmentID, selectedName,selectedBeginDate,selectedEndDate,selectedFee,selectedNumberOfCredits,selectedMaxSlot,selectedAvailableSlot,selectedRoom);
+        treeView1.setRoot(root1);
+        treeView1.setShowRoot(false);
+        
+        
     }
 	
 	
@@ -180,6 +291,17 @@ public class RegisterUIController implements Initializable {
     @FXML
     private void filter(ActionEvent event) {
     }
+    
+
+    @FXML
+    void addCourse(MouseEvent event) {
+TreeItem<Course> selection = treeView.getSelectionModel().getSelectedItem();
+    	System.out.println("ĐMCS");
+    	if (selection != null) {
+    		TreeItem<SelectedCourse> a = selection ;
+    	}
+    }
+    
     public void loadDB() {
 		try {
 			Connection connect = db.connectDB();
@@ -206,6 +328,65 @@ public class RegisterUIController implements Initializable {
         
         
         public Course(String courseID,String deptID,String name,String beginDate,String endDate, double fee, int numberOfCredit,int maxSlot,int availableSlot,String room) {
+            this.courseID = new SimpleStringProperty(courseID);
+            this.deptID = new SimpleStringProperty(deptID);
+            this.name = new SimpleStringProperty(name);
+            this.beginDate = new SimpleStringProperty(beginDate);
+            this.endDate = new SimpleStringProperty(endDate);
+            this.fee = new SimpleDoubleProperty(fee);
+            this.numberOfCredit = new SimpleIntegerProperty(numberOfCredit);
+            this.maxSlot = new SimpleIntegerProperty(maxSlot);
+            this.availableSlot = new SimpleIntegerProperty(availableSlot);
+            this.room = new SimpleStringProperty(room);
+        }
+        public String getCourseID () {
+        	return courseID.get();
+        }
+        public String getDepartmentID () {
+        	return deptID.get();
+        }
+        public String getName () {
+        	return name.get();
+        }
+        public String getBeginDate() {
+        	return beginDate.get();
+        }
+        public String getEndDate() {
+        	return endDate.get();
+        }
+        public  ObservableValue<Number> getFee () {
+        	return  fee.get();
+        }
+        public int getNumberOfCredit  () {
+        	return numberOfCredit.get();
+        }
+        public int getMaxSlot  () {
+        	return maxSlot.get();
+        }
+        public int getAvailableSlot  () {
+        	return availableSlot.get();
+        }
+        public String getRoom () {
+        	return room.get();
+        }
+
+    }
+    
+    class SelectedCourse extends RecursiveTreeObject<SelectedCourse> {
+
+        StringProperty deptID;
+        StringProperty courseID;
+        StringProperty name;
+        StringProperty beginDate;
+        StringProperty endDate;
+        ObservableValue<Number> fee;
+        IntegerProperty numberOfCredit;
+        IntegerProperty maxSlot;
+        StringProperty room;
+        IntegerProperty availableSlot;
+        
+        
+        public SelectedCourse(String courseID,String deptID,String name,String beginDate,String endDate, double fee, int numberOfCredit,int maxSlot,int availableSlot,String room) {
             this.courseID = new SimpleStringProperty(courseID);
             this.deptID = new SimpleStringProperty(deptID);
             this.name = new SimpleStringProperty(name);
