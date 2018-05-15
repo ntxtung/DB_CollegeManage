@@ -57,7 +57,7 @@ public class CourseManageController implements Initializable {
 	private JFXTreeTableView<Course> tableView;
 
 	@FXML
-	private ChoiceBox chBoxDepartPick;
+	private ChoiceBox<String> chBoxDepartPick;
 
 	@FXML
 	private JFXTextField txtFieldSearch;
@@ -170,12 +170,12 @@ public class CourseManageController implements Initializable {
 						return param.getValue().getValue().room;
 					}
 				});
-		updateTableView();
+		updateTableView(result);
 		updateChoiceBoxView();
 
 	}
 	
-	private void updateTableView() {
+	private void updateTableView(ResultSet result) {
 		ObservableList<Course> courses = FXCollections.observableArrayList();
 
 		try {
@@ -218,6 +218,12 @@ public class CourseManageController implements Initializable {
 		
 		chBoxDepartPick.setItems(deptName);
 		chBoxDepartPick.getSelectionModel().selectFirst();
+//		chBoxDepartPick.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
+//		      @Override
+//		      public void changed(ObservableValue<? extends Number> observableValue, Number number, Number number2) {
+//		        System.out.println(box.getItems().get((Integer) number2));
+//		      }
+//		    });
 	}
 	
 	private void loadDeptList() {
