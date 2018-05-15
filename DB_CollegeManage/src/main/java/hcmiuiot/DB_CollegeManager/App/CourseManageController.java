@@ -82,10 +82,10 @@ public class CourseManageController implements Initializable {
     private TreeTableColumn<Course, Number> fee;
 
     @FXML
-    private TreeTableColumn<Course, String> numberOfCredits;
+    private TreeTableColumn<Course, Number> numberOfCredits;
 
     @FXML
-    private TreeTableColumn<Course, String> maxSlot;
+    private TreeTableColumn<Course, Number> maxSlot;
 
     @FXML
     private TreeTableColumn<Course, String> room;
@@ -146,7 +146,7 @@ public class CourseManageController implements Initializable {
 					}
 				});
 
-		JFXTreeTableColumn<Course, Number> fee = new JFXTreeTableColumn<>("Fee");
+		fee = new JFXTreeTableColumn<>("Fee");
 		fee.setPrefWidth(90);
 		fee.setCellValueFactory(
 				new Callback<TreeTableColumn.CellDataFeatures<Course, Number>, ObservableValue<Number>>() {
@@ -156,7 +156,7 @@ public class CourseManageController implements Initializable {
 					}
 				});
 
-		JFXTreeTableColumn<Course, Number> numberOfCredits = new JFXTreeTableColumn<>("#Credits");
+		numberOfCredits = new JFXTreeTableColumn<>("#Credits");
 		numberOfCredits.setPrefWidth(80);
 		numberOfCredits.setCellValueFactory(
 				new Callback<TreeTableColumn.CellDataFeatures<Course, Number>, ObservableValue<Number>>() {
@@ -166,7 +166,7 @@ public class CourseManageController implements Initializable {
 					}
 				});
 
-		JFXTreeTableColumn<Course, Number> maxSlot = new JFXTreeTableColumn<>("Max Slot");
+		maxSlot = new JFXTreeTableColumn<>("Max Slot");
 		maxSlot.setPrefWidth(80);
 		maxSlot.setCellValueFactory(
 				new Callback<TreeTableColumn.CellDataFeatures<Course, Number>, ObservableValue<Number>>() {
@@ -176,7 +176,7 @@ public class CourseManageController implements Initializable {
 					}
 				});
 
-		JFXTreeTableColumn<Course, String> room = new JFXTreeTableColumn<>("Room");
+		room = new JFXTreeTableColumn<>("Room");
 		room.setPrefWidth(80);
 		room.setCellValueFactory(
 				new Callback<TreeTableColumn.CellDataFeatures<Course, String>, ObservableValue<String>>() {
