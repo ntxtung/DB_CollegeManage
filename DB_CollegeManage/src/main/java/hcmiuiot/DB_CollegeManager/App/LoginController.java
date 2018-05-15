@@ -63,32 +63,26 @@ public class LoginController implements Initializable{
         String password = "1.Dbproject";
 //        String username = txtUsername.getText();
 //        String password = txtPassword.getText();
+            
+        new Thread(new Runnable() {	
+			@Override
+			public void run() {
+				if (DbHandler.login(username, password) != null) {
+					Platform.runLater(() -> {
+			            completeLogin();
+					});
+		        } else {
+		        	Platform.runLater(() -> {
+		        		Alert al = new Alert(AlertType.ERROR);
+		        		al.setContentText("Login failed!");
+		        		al.showAndWait();
+		        		imgProgress.setVisible(false);
+		        	});        		
+		        }		
+			}
+		}).start();
         
-        
-        PauseTransition pauseTransition = new PauseTransition();
-        pauseTransition.setDuration(Duration.seconds(3));      
-        
-        if (DbHandler.login(username, password) != null) {
-        	pauseTransition.setOnFinished(ev -> {
-	            completeLogin(); 
-        	});
-        } else {
-        	
-        	pauseTransition.setOnFinished(ev -> {
-        		Platform.runLater(() -> {
-        			Alert al = new Alert(AlertType.ERROR);
-                	al.setContentText("Login failed!");
-                	al.showAndWait();
-                	imgProgress.setVisible(false);
-        		});
-        		
-        	});
-        	
-        }
- 
-        pauseTransition.play();
     }
-	
 
     private void handleValidation() {
         RequiredFieldValidator fieldValidator = new RequiredFieldValidator();
