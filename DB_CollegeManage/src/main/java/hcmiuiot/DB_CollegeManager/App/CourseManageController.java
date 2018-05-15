@@ -178,10 +178,11 @@ public class CourseManageController implements Initializable {
 		txtFieldSearch.textProperty().addListener(new ChangeListener<String>() {
 			@Override
 			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-				System.out.println(newValue);
+
 				tableView.setPredicate(new Predicate<TreeItem<Course>>() {
 					@Override
 					public boolean test(TreeItem<Course> t) {
+//						System.out.println(newValue);
 						Boolean flag = t.getValue().name.getValue().contains(newValue);
 						return flag;
 					}
@@ -245,6 +246,14 @@ public class CourseManageController implements Initializable {
 					res = DbHandler.execSQL("SELECT * FROM topicS.Course");
 				}
 				updateTableView(res);
+//				tableView.setPredicate(new Predicate<TreeItem<Course>>() {
+//					@Override
+//					public boolean test(TreeItem<Course> t) {
+////						System.out.println(txtFieldSearch.getText());
+//						Boolean flag = t.getValue().name.getValue().contains(txtFieldSearch.getText());
+//						return flag;
+//					}
+//				});
 			}
 		});
 	}
