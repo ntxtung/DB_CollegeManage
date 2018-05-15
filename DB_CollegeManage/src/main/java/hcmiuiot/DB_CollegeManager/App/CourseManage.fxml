@@ -21,7 +21,7 @@
             <TreeTableColumn fx:id="room" prefWidth="102.40008544921875" text="Room" />
             <TreeTableColumn fx:id="action" prefWidth="132.800048828125" text="Action" />
          </columns></JFXTreeTableView>
-      <ChoiceBox fx:id="chBoxDepartPick" layoutX="14.0" layoutY="96.0" prefWidth="150.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="96.0" />
-      <JFXTextField fx:id="txtFieldSearch" layoutX="179.0" layoutY="105.0" prefHeight="26.0" prefWidth="702.0" AnchorPane.leftAnchor="179.0" AnchorPane.rightAnchor="23.600000000000023" AnchorPane.topAnchor="105.0" />
+      <ChoiceBox fx:id="chBoxDepartPick" layoutX="14.0" layoutY="96.0" prefHeight="26.0" prefWidth="222.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="96.0" />
+      <JFXTextField fx:id="txtFieldSearch" layoutX="264.0" layoutY="105.0" prefHeight="26.0" prefWidth="692.0" AnchorPane.leftAnchor="264.0" AnchorPane.rightAnchor="24.0" AnchorPane.topAnchor="105.0" />
    </children>
 </AnchorPane>

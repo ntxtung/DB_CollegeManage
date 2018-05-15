@@ -223,7 +223,12 @@ public class CourseManageController implements Initializable {
 			@Override
 			public void changed(ObservableValue<? extends Number> observableValue, Number number, Number number2) {
 				System.out.println(chBoxDepartPick.getItems().get(number2.intValue()));
-				ResultSet res = DbHandler.execSQL("SELECT * FROM topicS.Course WHERE deptID IN (SELECT deptID FROM topicS.Department WHERE name = '"+ chBoxDepartPick.getItems().get(number2.intValue()) + "');");
+				ResultSet res;
+				if (number2.intValue() > 0) {
+					res = DbHandler.execSQL("SELECT * FROM topicS.Course WHERE deptID IN (SELECT deptID FROM topicS.Department WHERE name = '"+ chBoxDepartPick.getItems().get(number2.intValue()) + "');");
+				} else {
+					res = DbHandler.execSQL("SELECT * FROM topicS.Course");
+				}
 				updateTableView(res);
 			}
 		});
