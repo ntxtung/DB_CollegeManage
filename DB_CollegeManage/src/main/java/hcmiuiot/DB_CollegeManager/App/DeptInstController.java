@@ -3,6 +3,7 @@ package hcmiuiot.DB_CollegeManager.App;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.ResourceBundle;
 
 import com.jfoenix.controls.JFXComboBox;
@@ -38,18 +39,23 @@ public class DeptInstController implements Initializable {
 	}
 	
 	private void loadCombo(ActionEvent event) {
-		ResultSet rs = DbHandler.getInstance().ExecSQL("SELECT name FROM topicS.Department");
+		
+		HashMap<String, String> dataMap = new HashMap<String, String>();
+		
+		ResultSet rs = DbHandler.getInstance().ExecSQL("SELECT name, mail FROM topicS.Department");
 		try {
 			while (rs.next()) {
-				// Get data from "name" column
-				options1.add(rs.getString("name"));
-				// Set into data from ComboBox to Text
+				String deptName = rs.getString("name");
+				dataMap.put(deptName, rs.getString("mail"));
+				options1.add(deptName);
 				cb.getSelectionModel().selectedItemProperty()
 			    .addListener(new ChangeListener<String>() {
 			        public void changed(ObservableValue<? extends String> observable,
 			                            String oldValue, String newValue) {
 			            name.setText(newValue);
-			            setData(oldValue);
+			            if (newValue != null) {
+			            	email.setText(dataMap.get(newValue));
+			            }
 			        }
 			    });
 			}
@@ -61,18 +67,4 @@ public class DeptInstController implements Initializable {
 		cb.getSelectionModel().select(0);
 	}
 	
-	private void setData(String newValue) {
-		ResultSet rs1 = DbHandler.getInstance().ExecSQL("SELECT mail FROM topicS.Department"
-														+ "WHERE name = '" + newValue + "'" + ";");
-		try {
-			while(rs1.next()) 
-			{
-				String data = rs1.getString("mail");
-				email.setText(data);
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
 }
