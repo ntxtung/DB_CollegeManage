@@ -62,36 +62,36 @@ public class CourseManageController implements Initializable {
 
 	@FXML
 	private JFXTextField txtFieldSearch;
-	
+
 	@FXML
-    private TreeTableColumn<Course, String> courseID;
+	private TreeTableColumn<Course, String> courseID;
 
-    @FXML
-    private TreeTableColumn<Course, String> departmentID;
+	@FXML
+	private TreeTableColumn<Course, String> departmentID;
 
-    @FXML
-    private TreeTableColumn<Course, String> name;
+	@FXML
+	private TreeTableColumn<Course, String> name;
 
-    @FXML
-    private TreeTableColumn<Course, String> beginDate;
+	@FXML
+	private TreeTableColumn<Course, String> beginDate;
 
-    @FXML
-    private TreeTableColumn<Course, String> endDate;
+	@FXML
+	private TreeTableColumn<Course, String> endDate;
 
-    @FXML
-    private TreeTableColumn<Course, Number> fee;
+	@FXML
+	private TreeTableColumn<Course, Number> fee;
 
-    @FXML
-    private TreeTableColumn<Course, Number> numberOfCredits;
+	@FXML
+	private TreeTableColumn<Course, Number> numberOfCredits;
 
-    @FXML
-    private TreeTableColumn<Course, Number> maxSlot;
+	@FXML
+	private TreeTableColumn<Course, Number> maxSlot;
 
-    @FXML
-    private TreeTableColumn<Course, String> room;
-    
-    @FXML
-    private TreeTableColumn<?, ?> action;
+	@FXML
+	private TreeTableColumn<Course, String> room;
+
+	@FXML
+	private TreeTableColumn<?, ?> action;
 
 	private ResultSet result, deptList;
 
@@ -175,23 +175,23 @@ public class CourseManageController implements Initializable {
 		updateChoiceBoxView();
 
 	}
-	
-	private void updateTableView(ResultSet result) {
+
+	private void updateTableView(ResultSet inputResult) {
 		ObservableList<Course> courses = FXCollections.observableArrayList();
 
 		try {
-			while (result.next()) {
-				String _courseId = result.getString("courseID");
-				String _deptId = result.getString("deptID");
-				String _name = result.getString("name");
-				String _beginDate = result.getString("begin_date");
-				String _endDate = result.getString("end_date");
-				double _fee = result.getDouble("fee");
-				int _numberOfCredits = result.getInt("num_of_credits");
-				int _maxSlot = result.getInt("max_slot");
-				String _room = result.getString("room");
-				courses.add(new Course(_courseId, _deptId, _name, _beginDate, _endDate, _fee, _numberOfCredits, _maxSlot,
-						_room));
+			while (inputResult.next()) {
+				String _courseId = inputResult.getString("courseID");
+				String _deptId = inputResult.getString("deptID");
+				String _name = inputResult.getString("name");
+				String _beginDate = inputResult.getString("begin_date");
+				String _endDate = inputResult.getString("end_date");
+				double _fee = inputResult.getDouble("fee");
+				int _numberOfCredits = inputResult.getInt("num_of_credits");
+				int _maxSlot = inputResult.getInt("max_slot");
+				String _room = inputResult.getString("room");
+				courses.add(new Course(_courseId, _deptId, _name, _beginDate, _endDate, _fee, _numberOfCredits,
+						_maxSlot, _room));
 
 			}
 		} catch (SQLException e) {
@@ -204,7 +204,7 @@ public class CourseManageController implements Initializable {
 		tableView.setRoot(root);
 		tableView.setShowRoot(false);
 	}
-	
+
 	private void updateChoiceBoxView() {
 		ObservableList<String> deptName = FXCollections.observableArrayList();
 		deptName.add("--All--");
@@ -216,22 +216,23 @@ public class CourseManageController implements Initializable {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+
 		chBoxDepartPick.setItems(deptName);
 		chBoxDepartPick.getSelectionModel().selectFirst();
-//		chBoxDepartPick.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<>() {
-//		      @Override
-//		      public void changed(ObservableValue<? extends Number> observableValue, Number number, Number number2) {
-//		    	  ResultSet res;
-//		    	  System.out.println(chBoxDepartPick.);
-//		      }
-//		    });
+		chBoxDepartPick.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<>() {
+			@Override
+			public void changed(ObservableValue<? extends Number> observableValue, Number number, Number number2) {
+				System.out.println(chBoxDepartPick.getItems().get(number2.intValue()));
+				ResultSet res = DbHandler.execSQL("SELECT * FROM topicS.Course WHERE deptID IN (SELECT deptID FROM topicS.Department WHERE name = '"+ chBoxDepartPick.getItems().get(number2.intValue()) + "');");
+				updateTableView(res);
+			}
+		});
 	}
-	
+
 	private void loadDeptList() {
 		deptList = DbHandler.execSQL("SELECT name FROM topicS.Department");
 	}
-	
+
 	private void loadDB() {
 		result = DbHandler.execSQL("SELECT * FROM topicS.Course");
 	}
