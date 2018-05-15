@@ -217,6 +217,7 @@ public class CourseManageController implements Initializable {
 		}
 		
 		chBoxDepartPick.setItems(deptName);
+		chBoxDepartPick.getSelectionModel().selectFirst();
 	}
 	
 	private void loadDeptList() {
