@@ -10,9 +10,9 @@ public class DBConnector {
 	public Connection connectDB() {
 		/// Driver
 		try {
-			String url = "jdbc:mysql://db.hcmiuiot.club/ititiu16144";
-			String username = "ititiu16144";
-			String password = "Trung@1998";
+			String url = "jdbc:mysql://db.hcmiuiot.club/topicS";
+			String username = "dbproject";
+			String password = "1.Dbproject";
 
 			Class.forName("com.mysql.jdbc.Driver");
 			Connection connect = DriverManager.getConnection(url, username, password);

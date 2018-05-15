@@ -1,28 +1,45 @@
 package hcmiuiot.DB_CollegeManager.DatabaseHandler;
 
+import java.sql.Statement;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class DbHandler extends Configs {
+public class DbHandler {
 
-    protected Connection dbconnection;
+	private static DbHandler instance;
 
-    public Connection getConnection() {
-        final String ConnectionString = "jdbc:mysql://" + Configs.dbhost + ":" + Configs.dbport + "/" + Configs.dbname;
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-        } catch (ClassNotFoundException e) {
-            System.err.println(e.getMessage());
-        }
+	private static Connection conn;
 
-        try {
-            dbconnection = DriverManager.getConnection(ConnectionString, Configs.dbuser, Configs.dbpass);
+	public static DbHandler getInstance() {
+		return instance;
+	}
 
-        } catch (SQLException e) {
-            System.err.println(e.getMessage());
-        }
-        return dbconnection;
-    }
+	public static DbHandler login(String username, String password) {
+		Statement statement;
+		String ConnectionString = "jdbc:mysql://" + Configs.dbHostname + ":" + Configs.dbPort + "/" + Configs.dbName;
+		try {
+			// Class.forName("com.mysql.jdbc.Driver");
+			conn = DriverManager.getConnection(ConnectionString, username, password);
+			statement = conn.createStatement();
+			instance = new DbHandler();
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+			instance = null;
+		}
+		return instance;
+	}
+
+	public static ResultSet execSQL(String sql) {
+		Statement statement;
+		try {
+			statement = conn.createStatement();
+			return statement.executeQuery(sql);
+		} catch (SQLException e) {
+			System.err.println(e.getMessage());
+		}
+		return null;
+	}
 
 }
