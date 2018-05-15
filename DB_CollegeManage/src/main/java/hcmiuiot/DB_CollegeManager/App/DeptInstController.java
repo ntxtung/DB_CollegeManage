@@ -31,7 +31,7 @@ public class DeptInstController implements Initializable {
 	@FXML
 	private Text phone;
 	
-	final ObservableList<String> options1 = FXCollections.observableArrayList();
+	final ObservableList<String> options = FXCollections.observableArrayList();
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -40,21 +40,24 @@ public class DeptInstController implements Initializable {
 	
 	private void loadCombo(ActionEvent event) {
 		
-		HashMap<String, String> dataMap = new HashMap<String, String>();
+		HashMap<String, String> dataMap1 = new HashMap<String, String>();
+		HashMap<String, String> dataMap2 = new HashMap<String, String>();
 		
-		ResultSet rs = DbHandler.getInstance().ExecSQL("SELECT name, mail FROM topicS.Department");
+		ResultSet rs = DbHandler.getInstance().ExecSQL("SELECT name, mail,phone FROM topicS.Department");
 		try {
 			while (rs.next()) {
 				String deptName = rs.getString("name");
-				dataMap.put(deptName, rs.getString("mail"));
-				options1.add(deptName);
+				dataMap1.put(deptName, rs.getString("mail"));
+				dataMap2.put(deptName, rs.getString("phone"));
+				options.add(deptName);
 				cb.getSelectionModel().selectedItemProperty()
 			    .addListener(new ChangeListener<String>() {
 			        public void changed(ObservableValue<? extends String> observable,
 			                            String oldValue, String newValue) {
 			            name.setText(newValue);
 			            if (newValue != null) {
-			            	email.setText(dataMap.get(newValue));
+			            	email.setText(dataMap1.get(newValue));
+			            	phone.setText(dataMap2.get(newValue));
 			            }
 			        }
 			    });
@@ -62,7 +65,7 @@ public class DeptInstController implements Initializable {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		cb.setItems(options1);
+		cb.setItems(options);
 		cb.setValue(null);
 		cb.getSelectionModel().select(0);
 	}
