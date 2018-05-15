@@ -76,9 +76,9 @@ public class LoginController implements Initializable{
 		        		Alert al = new Alert(AlertType.ERROR);
 		        		al.setContentText("Login failed!");
 		        		al.showAndWait();
-		        		imgProgress.setVisible(false);
-		        	});        		
-		        }		
+		        	});  
+		        }
+				imgProgress.setVisible(false);
 			}
 		}).start();
         
@@ -108,7 +108,6 @@ public class LoginController implements Initializable{
     }
 
     private void completeLogin() {
-    	imgProgress.setVisible(false);
         btnLogin.getScene().getWindow().hide();
         try {
             imgProgress.setVisible(false);
