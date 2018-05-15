@@ -89,6 +89,9 @@ public class CourseManageController implements Initializable {
 
     @FXML
     private TreeTableColumn<Course, String> room;
+    
+    @FXML
+    private TreeTableColumn<?, ?> action;
 
 	private ResultSet result;
 
@@ -96,8 +99,6 @@ public class CourseManageController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		loadDB();
 
-		courseID = new JFXTreeTableColumn<>("CourseID");
-		courseID.setPrefWidth(100);
 		courseID.setCellValueFactory(
 				new Callback<TreeTableColumn.CellDataFeatures<Course, String>, ObservableValue<String>>() {
 					@Override
@@ -106,8 +107,6 @@ public class CourseManageController implements Initializable {
 					}
 				});
 
-		departmentID = new JFXTreeTableColumn<>("Department");
-		departmentID.setPrefWidth(100);
 		departmentID.setCellValueFactory(
 				new Callback<TreeTableColumn.CellDataFeatures<Course, String>, ObservableValue<String>>() {
 					@Override
@@ -116,8 +115,6 @@ public class CourseManageController implements Initializable {
 					}
 				});
 
-		name = new JFXTreeTableColumn<>("Name");
-		name.setPrefWidth(220);
 		name.setCellValueFactory(
 				new Callback<TreeTableColumn.CellDataFeatures<Course, String>, ObservableValue<String>>() {
 					@Override
@@ -126,8 +123,6 @@ public class CourseManageController implements Initializable {
 					}
 				});
 
-		beginDate = new JFXTreeTableColumn<>("Begin Date");
-		beginDate.setPrefWidth(100);
 		beginDate.setCellValueFactory(
 				new Callback<TreeTableColumn.CellDataFeatures<Course, String>, ObservableValue<String>>() {
 					@Override
@@ -136,8 +131,6 @@ public class CourseManageController implements Initializable {
 					}
 				});
 
-		endDate = new JFXTreeTableColumn<>("End Date");
-		endDate.setPrefWidth(100);
 		endDate.setCellValueFactory(
 				new Callback<TreeTableColumn.CellDataFeatures<Course, String>, ObservableValue<String>>() {
 					@Override
@@ -146,8 +139,6 @@ public class CourseManageController implements Initializable {
 					}
 				});
 
-		fee = new JFXTreeTableColumn<>("Fee");
-		fee.setPrefWidth(90);
 		fee.setCellValueFactory(
 				new Callback<TreeTableColumn.CellDataFeatures<Course, Number>, ObservableValue<Number>>() {
 					@Override
@@ -156,8 +147,6 @@ public class CourseManageController implements Initializable {
 					}
 				});
 
-		numberOfCredits = new JFXTreeTableColumn<>("#Credits");
-		numberOfCredits.setPrefWidth(80);
 		numberOfCredits.setCellValueFactory(
 				new Callback<TreeTableColumn.CellDataFeatures<Course, Number>, ObservableValue<Number>>() {
 					@Override
@@ -166,8 +155,6 @@ public class CourseManageController implements Initializable {
 					}
 				});
 
-		maxSlot = new JFXTreeTableColumn<>("Max Slot");
-		maxSlot.setPrefWidth(80);
 		maxSlot.setCellValueFactory(
 				new Callback<TreeTableColumn.CellDataFeatures<Course, Number>, ObservableValue<Number>>() {
 					@Override
@@ -176,8 +163,6 @@ public class CourseManageController implements Initializable {
 					}
 				});
 
-		room = new JFXTreeTableColumn<>("Room");
-		room.setPrefWidth(80);
 		room.setCellValueFactory(
 				new Callback<TreeTableColumn.CellDataFeatures<Course, String>, ObservableValue<String>>() {
 					@Override
