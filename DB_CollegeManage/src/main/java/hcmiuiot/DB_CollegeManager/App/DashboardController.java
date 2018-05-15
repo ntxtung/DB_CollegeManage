@@ -16,10 +16,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.control.Label;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
 public class DashboardController implements Initializable {
@@ -109,7 +109,17 @@ public class DashboardController implements Initializable {
 
     @FXML
     private void onLogOff(ActionEvent event) {
-
+    	btnLogout.getScene().getWindow().hide();
+    	try {
+    		Stage dashboardStage = new Stage();
+    		dashboardStage.setTitle("");
+    		Parent root = FXMLLoader.load(getClass().getResource("LoginForm.fxml"));
+    		Scene scene = new Scene(root);
+    		dashboardStage.setScene(scene);
+    		dashboardStage.show();
+    	} catch (IOException ex) {
+    		Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
+    	}
     }
 
     @FXML
