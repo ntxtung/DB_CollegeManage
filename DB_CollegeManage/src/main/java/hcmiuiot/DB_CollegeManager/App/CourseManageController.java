@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.util.ResourceBundle;
 import java.util.function.Predicate;
 
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXTreeTableView;
 import com.jfoenix.controls.RecursiveTreeItem;
@@ -92,7 +93,13 @@ public class CourseManageController implements Initializable {
 	private TreeTableColumn<Course, String> room;
 
 	@FXML
-	private TreeTableColumn<?, ?> action;
+    private JFXButton btnAddCourse;
+
+    @FXML
+    private JFXButton btnEditCourse;
+
+    @FXML
+    private JFXButton btnDeleteCourse;
 
 	private ResultSet result, deptList;
 
@@ -246,14 +253,6 @@ public class CourseManageController implements Initializable {
 					res = DbHandler.execSQL("SELECT * FROM topicS.Course");
 				}
 				updateTableView(res);
-//				tableView.setPredicate(new Predicate<TreeItem<Course>>() {
-//					@Override
-//					public boolean test(TreeItem<Course> t) {
-////						System.out.println(txtFieldSearch.getText());
-//						Boolean flag = t.getValue().name.getValue().contains(txtFieldSearch.getText());
-//						return flag;
-//					}
-//				});
 			}
 		});
 	}
