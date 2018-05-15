@@ -4,6 +4,7 @@ import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
+import java.util.function.Predicate;
 
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXTreeTableView;
@@ -173,6 +174,20 @@ public class CourseManageController implements Initializable {
 				});
 		updateTableView(result);
 		updateChoiceBoxView();
+		
+		txtFieldSearch.textProperty().addListener(new ChangeListener<String>() {
+			@Override
+			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+				System.out.println(newValue);
+				tableView.setPredicate(new Predicate<TreeItem<Course>>() {
+					@Override
+					public boolean test(TreeItem<Course> t) {
+						Boolean flag = t.getValue().name.getValue().contains(newValue);
+						return flag;
+					}
+				});
+			}
+		});      
 
 	}
 
