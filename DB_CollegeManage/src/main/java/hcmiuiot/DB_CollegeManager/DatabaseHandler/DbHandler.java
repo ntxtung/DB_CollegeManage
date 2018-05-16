@@ -31,7 +31,7 @@ public class DbHandler {
 		return instance;
 	}
 
-	public static ResultSet execSQL(String sql) {
+	public static ResultSet execQuery(String sql) {
 		Statement statement;
 		try {
 			statement = conn.createStatement();
@@ -40,6 +40,17 @@ public class DbHandler {
 			System.err.println(e.getMessage());
 		}
 		return null;
+	}
+	
+	public static int execUpdate(String sql) {
+		Statement statement;
+		try {
+			statement = conn.createStatement();
+			return statement.executeUpdate(sql);
+		} catch (SQLException e) {
+			System.err.println(e.getMessage());
+		}
+		return 0;
 	}
 
 }
