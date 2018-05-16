@@ -226,11 +226,11 @@ public class CourseManageController implements Initializable {
     	Optional<ButtonType> result = alert.showAndWait();
     	
     	TreeItem<Course> selectedCourse = tableView.getSelectionModel().getSelectedItem();
-    	System.out.println(selectedCourse.getValue().courseID.get()); 
+//    	System.out.println(selectedCourse.getValue().courseID.get()); 
     	
     	if (result.get() == ButtonType.OK){
     		DbHandler.execUpdate("DELETE FROM topicS.Course WHERE courseID = \""+selectedCourse.getValue().courseID.get()+"\";");
-    		chBoxDepartPick.setSelectionModel(chBoxDepartPick.getSelectionModel());
+    		refreshTableView();
     	} else {
     		
     	}
@@ -307,7 +307,18 @@ public class CourseManageController implements Initializable {
 			}
 		});
 	}
-
+	
+	private void refreshTableView() {
+		String choice = chBoxDepartPick.getItems().get(chBoxDepartPick.getSelectionModel().getSelectedIndex());
+//		System.out.println(choice);
+		if (choice.equals("--All--")) {
+			loadDB();
+		} else {
+			result = DbHandler.execQuery("SELECT * FROM topicS.Course WHERE deptID IN (SELECT deptID FROM topicS.Department WHERE name = '"+ chBoxDepartPick.getItems().get(chBoxDepartPick.getSelectionModel().getSelectedIndex()) + "');");
+		}
+		updateTableView(result);
+	}
+	
 	private void loadDeptList() {
 		deptList = DbHandler.execQuery("SELECT name FROM topicS.Department");
 	}
