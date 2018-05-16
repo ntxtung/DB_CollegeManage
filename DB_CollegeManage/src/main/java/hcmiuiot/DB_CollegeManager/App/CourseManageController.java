@@ -232,7 +232,7 @@ public class CourseManageController implements Initializable {
     		DbHandler.execUpdate("DELETE FROM topicS.Course WHERE courseID = \""+selectedCourse.getValue().courseID.get()+"\";");
     		refreshTableView();
     	} else {
-    		
+    		// Beautiful thing ♥
     	}
     }
 
@@ -310,7 +310,6 @@ public class CourseManageController implements Initializable {
 	
 	private void refreshTableView() {
 		String choice = chBoxDepartPick.getItems().get(chBoxDepartPick.getSelectionModel().getSelectedIndex());
-//		System.out.println(choice);
 		if (choice.equals("--All--")) {
 			loadDB();
 		} else {
