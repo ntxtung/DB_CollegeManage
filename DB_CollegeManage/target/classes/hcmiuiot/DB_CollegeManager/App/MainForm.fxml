@@ -51,7 +51,35 @@
 												<FontAwesomeIconView fill="#757575" glyphName="DASHBOARD" size="16.0" wrappingWidth="40.0" />
 											</graphic>
 										</JFXButton>
-										<JFXButton fx:id="btnAdd" onAction="#onOpenAddStudent" prefHeight="36.0" prefWidth="189.0" styleClass="side-buttons" text="Add student" textFill="#757575" GridPane.rowIndex="1">
+										
+										<JFXButton fx:id="btnCourseManager" onAction="#onCourseManager" prefHeight="36.0" prefWidth="189.0" styleClass="side-buttons" text="Course Manager" textFill="#757575" GridPane.rowIndex="1">
+											<font>
+												<Font name="Roboto Medium" size="13.0" />
+											</font>
+											<graphic>
+												<FontAwesomeIconView fill="#757575" glyphName="DASHBOARD" size="16.0" wrappingWidth="40.0" />
+											</graphic>
+										</JFXButton>
+										
+										<JFXButton fx:id="btnDepartmentManager" onAction="#onDepartmentManager" prefHeight="36.0" prefWidth="189.0" styleClass="side-buttons" text="Department Manager" textFill="#757575" GridPane.rowIndex="2">
+											<font>
+												<Font name="Roboto Medium" size="13.0" />
+											</font>
+											<graphic>
+												<FontAwesomeIconView fill="#757575" glyphName="DASHBOARD" size="16.0" wrappingWidth="40.0" />
+											</graphic>
+										</JFXButton>
+										
+										<JFXButton fx:id="btnInstructorManager" onAction="#onInstructorManager" prefHeight="36.0" prefWidth="189.0" styleClass="side-buttons" text="Instructor Manager" textFill="#757575" GridPane.rowIndex="3">
+											<font>
+												<Font name="Roboto Medium" size="13.0" />
+											</font>
+											<graphic>
+												<FontAwesomeIconView fill="#757575" glyphName="DASHBOARD" size="16.0" wrappingWidth="40.0" />
+											</graphic>
+										</JFXButton>
+										
+										<JFXButton fx:id="btnAdd" onAction="#onOpenAddStudent" prefHeight="36.0" prefWidth="189.0" styleClass="side-buttons" text="Add student" textFill="#757575" GridPane.rowIndex="4">
 											<font>
 												<Font name="Roboto Medium" size="13.0" />
 											</font>
@@ -59,7 +87,7 @@
 												<FontAwesomeIconView fill="#757575" glyphName="PLUS_SQUARE" size="16.0" wrappingWidth="40.0" />
 											</graphic>
 										</JFXButton>
-										<JFXButton fx:id="btnView" onAction="#onOpenListStudent" prefHeight="36.0" prefWidth="189.0" styleClass="side-buttons" text="View students" textFill="#757575" GridPane.rowIndex="2">
+										<JFXButton fx:id="btnView" onAction="#onOpenListStudent" prefHeight="36.0" prefWidth="189.0" styleClass="side-buttons" text="View students" textFill="#757575" GridPane.rowIndex="5">
 											<font>
 												<Font name="Roboto Medium" size="13.0" />
 											</font>
@@ -67,7 +95,7 @@
 												<FontAwesomeIconView fill="#757575" glyphName="EYE" size="16.0" wrappingWidth="40.0" />
 											</graphic>
 										</JFXButton>
-										<JFXButton fx:id="btnLogout" onAction="#onLogOff" prefHeight="36.0" prefWidth="189.0" styleClass="side-buttons" text="Log out" textFill="#757575" GridPane.rowIndex="3">
+										<JFXButton fx:id="btnLogout" onAction="#onLogOff" prefHeight="36.0" prefWidth="189.0" styleClass="side-buttons" text="Log out" textFill="#757575" GridPane.rowIndex="6">
 											<font>
 												<Font name="Roboto Medium" size="13.0" />
 											</font>
@@ -75,7 +103,7 @@
 												<FontAwesomeIconView fill="#757575" glyphName="SIGN_OUT" size="16.0" wrappingWidth="40.0" />
 											</graphic>
 										</JFXButton>
-										<JFXButton fx:id="btnClose" onAction="#onExit" prefHeight="36.0" prefWidth="189.0" styleClass="side-buttons" text="Exit" textFill="#757575" GridPane.rowIndex="4">
+										<JFXButton fx:id="btnClose" onAction="#onExit" prefHeight="36.0" prefWidth="189.0" styleClass="side-buttons" text="Exit" textFill="#757575" GridPane.rowIndex="7">
 											<font>
 												<Font name="Roboto Medium" size="13.0" />
 											</font>
@@ -83,6 +111,7 @@
 												<FontAwesomeIconView fill="#757575" glyphName="CLOSE" size="16.0" wrappingWidth="40.0" />
 											</graphic>
 										</JFXButton>
+										
 									</children>
 								</GridPane>
 							</children>
