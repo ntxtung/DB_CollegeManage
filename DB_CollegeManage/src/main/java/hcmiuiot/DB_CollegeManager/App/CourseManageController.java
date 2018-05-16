@@ -3,8 +3,11 @@ package hcmiuiot.DB_CollegeManager.App;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.function.Predicate;
 
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXTreeTableView;
 import com.jfoenix.controls.RecursiveTreeItem;
@@ -20,8 +23,12 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableColumn;
@@ -90,10 +97,23 @@ public class CourseManageController implements Initializable {
 	@FXML
 	private TreeTableColumn<Course, String> room;
 
-	@FXML
-	private TreeTableColumn<?, ?> action;
+    @FXML
+    private JFXButton btnAddCourse;
+
+    @FXML
+    private JFXButton btnEditCourse;
+
+    @FXML
+    private JFXButton btnDeleteCourse;
+
+    @FXML
+    private JFXButton btnStdDetail;
+
+    @FXML
+    private JFXButton btnInstructorDetail;
 
 	private ResultSet result, deptList;
+	private TreeItem<Course> root;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -173,8 +193,63 @@ public class CourseManageController implements Initializable {
 				});
 		updateTableView(result);
 		updateChoiceBoxView();
+		
+		txtFieldSearch.textProperty().addListener(new ChangeListener<String>() {
+			@Override
+			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+
+				tableView.setPredicate(new Predicate<TreeItem<Course>>() {
+					@Override
+					public boolean test(TreeItem<Course> t) {
+//						System.out.println(newValue);
+						Boolean flag = t.getValue().name.getValue().contains(newValue);
+						return flag;
+					}
+				});
+			}
+		});      
 
 	}
+	
+    @FXML
+    public void onAddCourse(ActionEvent event) {
+
+    }
+
+    @FXML
+    public void onDelete(ActionEvent event) {
+    	Alert alert = new Alert(AlertType.CONFIRMATION);
+    	alert.setTitle("Confirm Deletion");
+    	alert.setHeaderText("Do you want to delete this course?");
+    	alert.setContentText("WARNING: You cannot undo this action");
+
+    	Optional<ButtonType> result = alert.showAndWait();
+    	
+    	TreeItem<Course> selectedCourse = tableView.getSelectionModel().getSelectedItem();
+//    	System.out.println(selectedCourse.getValue().courseID.get()); 
+    	
+    	if (result.get() == ButtonType.OK){
+    		DbHandler.execUpdate("DELETE FROM topicS.Course WHERE courseID = \""+selectedCourse.getValue().courseID.get()+"\";");
+    		refreshTableView();
+    	} else {
+    		// Beautiful thing ♥
+    	}
+    }
+
+    @FXML
+    public void onEdit(ActionEvent event) {
+
+    }
+
+    @FXML
+    public void onInstructorDetail(ActionEvent event) {
+
+    }
+
+    @FXML
+    public void onStdDetail(ActionEvent event) {
+
+    }
 
 	private void updateTableView(ResultSet inputResult) {
 		ObservableList<Course> courses = FXCollections.observableArrayList();
@@ -198,7 +273,7 @@ public class CourseManageController implements Initializable {
 			e.printStackTrace();
 		}
 
-		final TreeItem<Course> root = new RecursiveTreeItem<Course>(courses, RecursiveTreeObject::getChildren);
+		root = new RecursiveTreeItem<Course>(courses, RecursiveTreeObject::getChildren);
 		tableView.getColumns().setAll(courseID, departmentID, name, beginDate, endDate, fee, numberOfCredits, room,
 				maxSlot);
 		tableView.setRoot(root);
@@ -223,18 +298,32 @@ public class CourseManageController implements Initializable {
 			@Override
 			public void changed(ObservableValue<? extends Number> observableValue, Number number, Number number2) {
 				System.out.println(chBoxDepartPick.getItems().get(number2.intValue()));
-				ResultSet res = DbHandler.execSQL("SELECT * FROM topicS.Course WHERE deptID IN (SELECT deptID FROM topicS.Department WHERE name = '"+ chBoxDepartPick.getItems().get(number2.intValue()) + "');");
-				updateTableView(res);
+				if (number2.intValue() > 0) {
+					result = DbHandler.execQuery("SELECT * FROM topicS.Course WHERE deptID IN (SELECT deptID FROM topicS.Department WHERE name = '"+ chBoxDepartPick.getItems().get(number2.intValue()) + "');");
+				} else {
+					result = DbHandler.execQuery("SELECT * FROM topicS.Course");
+				}
+				updateTableView(result);
 			}
 		});
 	}
-
+	
+	private void refreshTableView() {
+		String choice = chBoxDepartPick.getItems().get(chBoxDepartPick.getSelectionModel().getSelectedIndex());
+		if (choice.equals("--All--")) {
+			loadDB();
+		} else {
+			result = DbHandler.execQuery("SELECT * FROM topicS.Course WHERE deptID IN (SELECT deptID FROM topicS.Department WHERE name = '"+ chBoxDepartPick.getItems().get(chBoxDepartPick.getSelectionModel().getSelectedIndex()) + "');");
+		}
+		updateTableView(result);
+	}
+	
 	private void loadDeptList() {
-		deptList = DbHandler.execSQL("SELECT name FROM topicS.Department");
+		deptList = DbHandler.execQuery("SELECT name FROM topicS.Department");
 	}
 
 	private void loadDB() {
-		result = DbHandler.execSQL("SELECT * FROM topicS.Course");
+		result = DbHandler.execQuery("SELECT * FROM topicS.Course");
 	}
 
 }
