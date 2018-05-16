@@ -16,6 +16,8 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 /*
  *  Control Department & Instructor Form
@@ -24,6 +26,8 @@ public class DeptInstController implements Initializable {
 	
 	@FXML
 	private JFXComboBox<String> cb;
+	@FXML
+	private ImageView logo;
 	@FXML 
 	private Text name;
 	@FXML
@@ -42,13 +46,15 @@ public class DeptInstController implements Initializable {
 		
 		HashMap<String, String> dataMap1 = new HashMap<String, String>();
 		HashMap<String, String> dataMap2 = new HashMap<String, String>();
+		HashMap<String, Image> dataMap3 = new HashMap<String, Image>();
 		
-		ResultSet rs = DbHandler.getInstance().ExecSQL("SELECT name, mail,phone FROM topicS.Department");
+		ResultSet rs = DbHandler.getInstance().execQuery("SELECT name,mail,phone,logo FROM topicS.Department");
 		try {
 			while (rs.next()) {
 				String deptName = rs.getString("name");
 				dataMap1.put(deptName, rs.getString("mail"));
 				dataMap2.put(deptName, rs.getString("phone"));
+				dataMap3.put(deptName, DbHandler.convertBlob2Image(rs.getBlob(2)));
 				options.add(deptName);
 				cb.getSelectionModel().selectedItemProperty()
 			    .addListener(new ChangeListener<String>() {
@@ -58,6 +64,7 @@ public class DeptInstController implements Initializable {
 			            if (newValue != null) {
 			            	email.setText(dataMap1.get(newValue));
 			            	phone.setText(dataMap2.get(newValue));
+			            	logo.setImage(dataMap3.get(newValue));
 			            }
 			        }
 			    });
@@ -70,4 +77,15 @@ public class DeptInstController implements Initializable {
 		cb.getSelectionModel().select(0);
 	}
 	
+	class Department{
+		String mail;
+		String phone;
+		Image logo;
+		
+		public Department(String mail,String phone,Image logo) {
+			this.mail = mail;
+			this.phone = phone;
+			this.logo = logo;
+		}
+	}
 }
