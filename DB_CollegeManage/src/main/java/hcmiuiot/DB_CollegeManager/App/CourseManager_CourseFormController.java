@@ -12,8 +12,6 @@ import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextField;
 
 import hcmiuiot.DB_CollegeManager.DatabaseHandler.DbHandler;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -32,9 +30,9 @@ public class CourseManager_CourseFormController implements Initializable {
 
 	@FXML
 	private JFXDatePicker dtBeginDate;
-	
+
 	@FXML
-    private ChoiceBox<String> chBoxDeptList;
+	private ChoiceBox<String> chBoxDeptList;
 
 	@FXML
 	private JFXTextField txtFee;
@@ -46,6 +44,9 @@ public class CourseManager_CourseFormController implements Initializable {
 	private JFXTextField txtNumCre;
 
 	@FXML
+	private JFXTextField txtMaxSlot;
+
+	@FXML
 	private JFXTextField txtRoom;
 
 	@FXML
@@ -53,9 +54,11 @@ public class CourseManager_CourseFormController implements Initializable {
 
 	@FXML
 	private JFXButton btnOK;
-	
+
 	private ObservableList<String> deptID;
-	private ResultSet deptList;
+	private ResultSet deptTable;
+	private String initID;
+	private int mode = 0;
 
 	private StringConverter<LocalDate> dateFormat = new StringConverter<LocalDate>() {
 		private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -78,16 +81,17 @@ public class CourseManager_CourseFormController implements Initializable {
 
 	@FXML
 	void onCancel(ActionEvent event) {
-		Stage stage = (Stage) btnCancel.getScene().getWindow();
-		stage.close();
+		close();
 	}
 
 	@FXML
 	void onOK(ActionEvent event) {
-		System.out.println(txtCourseID.getText());
-		System.out.println(txtCourseName.getText());
-		System.out.println(dtBeginDate.getValue());
-		System.out.println(dtEndDate.getValue());
+		if (mode == 0) {
+			insertData();
+		} else {
+			editData();
+		}
+		close();
 	}
 
 	@Override
@@ -97,19 +101,18 @@ public class CourseManager_CourseFormController implements Initializable {
 		
 		loadDeptList();
 		updateChoiceBoxView();
+		
 	}
 
 	public ChoiceBox<String> getChBoxDeptList() {
 		return chBoxDeptList;
 	}
-	
+
 	private void updateChoiceBoxView() {
-		chBoxDeptList = new ChoiceBox<>();
 		deptID = FXCollections.observableArrayList();
-		deptID.add("lasda");
 		try {
-			while (deptList.next()) {
-				String dept = deptList.getString("deptID");
+			while (deptTable.next()) {
+				String dept = deptTable.getString("deptID");
 				deptID.add(dept);
 			}
 		} catch (SQLException e) {
@@ -118,8 +121,73 @@ public class CourseManager_CourseFormController implements Initializable {
 
 		chBoxDeptList.setItems(deptID);
 	}
-	
+
 	private void loadDeptList() {
-		deptList = DbHandler.execQuery("SELECT * FROM topicS.Department;");
+		
+		deptTable = DbHandler.execQuery("SELECT * FROM topicS.Department;");
+	}
+
+	private void close() {
+		Stage stage = (Stage) btnCancel.getScene().getWindow();
+		stage.close();
+	}
+
+	private void insertData() {
+		String _courseID = txtCourseID.getText();
+		String _deptID = chBoxDeptList.getSelectionModel().getSelectedItem();
+		String _courseName = txtCourseName.getText();
+		String _beginDate = dtBeginDate.getValue().toString();
+		String _endDate = dtEndDate.getValue().toString();
+		String _fee = txtFee.getText();
+		String _numCre = txtNumCre.getText();
+		String _maxSlot = txtMaxSlot.getText();
+		String _room = txtRoom.getText();
+
+		String statement = "INSERT INTO `topicS`.`Course` (`courseID`, `deptID`, `name`, `begin_date`, `end_date`, `fee`, `num_of_credits`, `max_slot`, `room`) VALUES ";
+		statement += "('" + _courseID + "', '" + _deptID + "', '" + _courseName + "', '" + _beginDate + "', '"
+				+ _endDate + "', '" + _fee + "', '" + _numCre + "', '" + _maxSlot + "','" + _room + "')";
+		DbHandler.execUpdate(statement);
+	}
+
+	private void editData() {
+		String _deptID = chBoxDeptList.getSelectionModel().getSelectedItem();
+		String _courseName = txtCourseName.getText();
+		String _beginDate = dtBeginDate.getValue().toString();
+		String _endDate = dtEndDate.getValue().toString();
+		String _fee = txtFee.getText();
+		String _numCre = txtNumCre.getText();
+		String _maxSlot = txtMaxSlot.getText();
+		String _room = txtRoom.getText();
+
+		String statement = "UPDATE `topicS`.`Course` ";
+		statement += "SET `deptID`='" + _deptID + "', `name`='" + _courseName + "', `begin_date`='" + _beginDate
+				+ "', `end_date`='" + _endDate + "', `fee`='" + _fee + "', `num_of_credits`='" + _numCre
+				+ "', `max_slot`='" + _maxSlot + "', `room`='" + _room + "'";
+		statement += "WHERE `courseID`='" + initID + "'";
+
+		DbHandler.execUpdate(statement);
+	}
+
+	public void setInitData(String _courseID, String _deptID, String _courseName, String _beginDate, String _endDate,
+			String _fee, String _numCre, String _maxSlot, String _room) {
+		initID = _courseID;
+		txtCourseID.setText(_courseID);
+		chBoxDeptList.getSelectionModel().select(_deptID);
+		txtCourseName.setText(_courseName);
+		dtBeginDate.setValue(LocalDate.parse(_beginDate));
+		dtEndDate.setValue(LocalDate.parse(_endDate));
+		txtFee.setText(_fee);
+		txtNumCre.setText(_numCre);
+		txtMaxSlot.setText(_maxSlot);
+		txtRoom.setText(_room);
+	}
+	
+	public void setToEditMode() {
+		mode = 1;
+		txtCourseID.setDisable(true);
+	}
+	
+	public void setToAddMode() {
+		mode = 0;
 	}
 }
