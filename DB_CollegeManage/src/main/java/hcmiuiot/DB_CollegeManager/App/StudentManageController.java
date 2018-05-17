@@ -1,5 +1,6 @@
 package hcmiuiot.DB_CollegeManager.App;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -7,6 +8,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.ResourceBundle;
 import java.util.function.Predicate;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
@@ -23,13 +26,17 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableColumn;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 
 class Student extends RecursiveTreeObject<Student> {
@@ -84,7 +91,19 @@ public class StudentManageController implements Initializable {
 
     @FXML
     void onAddStudent(ActionEvent event) {
-
+    	try {
+            Stage popupStage = new Stage();
+            popupStage.setTitle("");
+            Parent root = FXMLLoader.load(getClass().getResource("StudentRegister.fxml"));
+            Scene scene = new Scene(root);
+            popupStage.setScene(scene);
+            popupStage.setResizable(false);
+            popupStage.setTitle("New student");
+            popupStage.showAndWait();
+            refreshTableView();
+        } catch (IOException ex) {
+            Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @FXML
