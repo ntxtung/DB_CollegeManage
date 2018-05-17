@@ -24,6 +24,9 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableColumn;
@@ -86,7 +89,16 @@ public class StudentManageController implements Initializable {
 
     @FXML
     void onDelete(ActionEvent event) {
-
+    	TreeItem<Student> item = tableView.getSelectionModel().getSelectedItem();
+    	if (item != null) {
+    		String studentID = item.getValue().studentID.getValue();
+    		Alert confirm = new Alert(AlertType.CONFIRMATION);
+    		confirm.setContentText("Are you sure delete student "+ studentID + "?");
+    		if (confirm.showAndWait().get() == ButtonType.OK) {
+    			DbHandler.execUpdate("DELETE FROM Student WHERE studentID='"+studentID+"'");
+    			refreshTableView();
+    		}
+    	}
     }
 
     @FXML
@@ -172,6 +184,16 @@ public class StudentManageController implements Initializable {
 			}
 		});    
 		
+		tableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+		    if (newSelection != null) {
+		    	btnEditStudent.setDisable(false);
+		    	btnDeleteStudent.setDisable(false);
+		    } else {
+		    	btnEditStudent.setDisable(false);
+		    	btnDeleteStudent.setDisable(false);
+		    }
+		});
+		
 	}
 	
 	private void updateTableView(ResultSet inputResult) {
@@ -226,6 +248,16 @@ public class StudentManageController implements Initializable {
 				updateTableView(tableData);
 			}
 		});
+	}
+	
+	private void refreshTableView() {
+		String choice = chBoxDepartPick.getItems().get(chBoxDepartPick.getSelectionModel().getSelectedIndex());
+		if (choice.equals("--All--")) {
+			loadDB();
+		} else {
+			tableData = DbHandler.execQuery("SELECT studentID, fName, lName, birthday, deptID FROM topicS.Student WHERE deptID='"+deptMap.get(chBoxDepartPick.getSelectionModel().getSelectedItem())+"'");
+		}
+		updateTableView(tableData);
 	}
 
 }
