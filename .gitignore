@@ -12,3 +12,5 @@
 hs_err_pid*
 
 DB_CollegeManage/target/classes/META-INF/maven/hcmiuiot/DB_ColegeManage/
+
+DB_CollegeManage/target/classes/META-INF/MANIFEST\.MF
