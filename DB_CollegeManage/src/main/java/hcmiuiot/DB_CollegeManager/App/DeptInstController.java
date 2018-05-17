@@ -20,8 +20,11 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 /*
  *  Control Department & Instructor Form
@@ -34,14 +37,6 @@ public class DeptInstController implements Initializable {
 	private ImageView logo;
 	@FXML
 	private ImageView dean;
-	@FXML
-	private ImageView l1;
-	@FXML
-	private ImageView l2;
-	@FXML
-	private ImageView l3;
-	@FXML
-	private ImageView l4;
 	@FXML 
 	private Text name;
 	@FXML
@@ -50,6 +45,10 @@ public class DeptInstController implements Initializable {
 	private Text phone;
 	@FXML
 	private JFXSpinner spinnerLoading;
+	@FXML
+	private Circle circleDean;
+	@FXML
+	private TextArea deanDetails;
 	
 	final ObservableList<String> options = FXCollections.observableArrayList();
 	final HashMap<String, Department> dataDept = new HashMap<String, Department>();
@@ -83,8 +82,8 @@ public class DeptInstController implements Initializable {
 						Instructor head = null;
 						Image logo = DbHandler.getInstance().convertBlob2Image(rsDept.getBlob("logo"));
 						ArrayList<Instructor> instructors = new ArrayList<>();
-						
 						ResultSet rsInstructors = DbHandler.getInstance().execQuery("SELECT * FROM topicS.Instructor WHERE deptID='"+deptID+"'");
+						
 						while (rsInstructors.next()) {
 							String insID = rsInstructors.getString("instructorID");
 							String insName = rsInstructors.getString("fName") + " " + rsInstructors.getString("lName");
@@ -126,6 +125,10 @@ public class DeptInstController implements Initializable {
 								phone.setText(dataDept.get(selectedValue).getPhone());
 								logo.setImage(dataDept.get(selectedValue).getLogo());
 								dean.setImage(dataDept.get(selectedValue).getHead().getImg());
+								loadRoundImage(circleDean, dean,circleDean.getRadius());
+								deanDetails.setText(dataDept.get(selectedValue).getMail());
+								deanDetails.setText("\n");
+//								deanDetails.setText(dataDept.get(selectedValue).getPhone());
 								
 								for (Instructor instructor : dataDept.get(selectedValue).getInstructorList()) {
 									// add each of instructor
@@ -136,7 +139,8 @@ public class DeptInstController implements Initializable {
 					
 					cb.setItems(options);
 					cb.setValue(null);
-					cb.getSelectionModel().select(0);			
+					cb.getSelectionModel().select(0);	
+					
 					
 				});
 				Platform.runLater(() -> {
@@ -148,6 +152,11 @@ public class DeptInstController implements Initializable {
 		
 	}
 	
+	public void loadRoundImage(Circle clip,ImageView imageView,double radius) {
+		clip = new Circle(imageView.getFitWidth(),imageView.getFitHeight(),radius,Color.WHITE);
+		clip.setVisible(true);
+		imageView.setClip(clip);
+	}
 	class Department {
 		
 		String deptID;
