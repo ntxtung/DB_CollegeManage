@@ -2,6 +2,7 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXSpinner?>
 <?import de.jensd.fx.glyphs.materialicons.MaterialIconView?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.SplitPane?>
@@ -69,7 +70,7 @@
                            </font></Text>
                      </children>
                   </GridPane>
-                  <JFXButton layoutX="266.0" layoutY="290.0" prefHeight="50.0" prefWidth="109.0" ripplerFill="#09bd2d" style="-fx-background-color: white;" text="Refresh">
+                  <JFXButton layoutX="271.0" layoutY="290.0" onAction="#loadCombo" prefHeight="50.0" prefWidth="103.0" ripplerFill="#09bd2d" style="-fx-background-color: white;" text="Refresh">
                      <graphic>
                         <MaterialIconView size="15.0" />
                      </graphic>
@@ -77,6 +78,7 @@
                         <Font size="18.0" />
                      </font>
                   </JFXButton>
+                  <JFXSpinner fx:id="spinnerLoading" layoutX="229.0" layoutY="295.0" prefHeight="40.0" prefWidth="31.0" />
                </children>
             </Pane>
             <Pane prefHeight="667.0" prefWidth="697.0" style="-fx-background-color: #FFFFFF;">

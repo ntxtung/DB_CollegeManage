@@ -3,12 +3,16 @@ package hcmiuiot.DB_CollegeManager.App;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.ResourceBundle;
 
 import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.JFXSpinner;
 
 import hcmiuiot.DB_CollegeManager.DatabaseHandler.DbHandler;
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -44,143 +48,191 @@ public class DeptInstController implements Initializable {
 	private Text email;
 	@FXML
 	private Text phone;
+	@FXML
+	private JFXSpinner spinnerLoading;
 	
 	final ObservableList<String> options = FXCollections.observableArrayList();
 	final HashMap<String, Department> dataDept = new HashMap<String, Department>();
-	final HashMap<String, Instructor> dataInst = new HashMap<String, Instructor>();
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-//		loadCombo(null);
+		loadCombo(null);
 	}
 	
+	@FXML
 	private void loadCombo(ActionEvent event) {
 		
-		ResultSet rsDept = DbHandler.getInstance().execQuery("SELECT name,mail,phone,logo FROM topicS.Department");
-		ResultSet rsDean = DbHandler.getInstance().execQuery("SELECT Department.*, Instructor.img FROM topicS.Instructor,topicS.Department WHERE Department.head_id= Instructor.instructorID AND Department.deptID = Instructor.deptID");
-		ResultSet rsInst = DbHandler.getInstance().execQuery("SELECT Department.*, Instructor.img FROM topicS.Instructor,topicS.Department WHERE Department.deptID = Instructor.deptID AND Department.head_id <> instructorID");
-		try {
-			while (rsDept.next() && rsDean.next() && rsInst.next()) {
-				String deptName = rsDept.getString("name");
-				dataDept.put(deptName, new Department(rsDept.getString("mail"), rsDept.getString("phone"), DbHandler.convertBlob2Image(rsDept.getBlob("logo"))));
-				dataInst.put(deptName, new Instructor(DbHandler.convertBlob2Image(rsDean.getBlob("img")), 
-													  DbHandler.convertBlob2Image(rsInst.getBlob("img")), 
-													  DbHandler.convertBlob2Image(rsInst.getBlob("img")), 
-													  DbHandler.convertBlob2Image(rsInst.getBlob("img")),
-													  DbHandler.convertBlob2Image(rsInst.getBlob("img"))));
-				options.add(deptName);
-				cb.getSelectionModel().selectedItemProperty()
-			    .addListener(new ChangeListener<String>() {
-			        public void changed(ObservableValue<? extends String> observable,
-			                            String oldValue, String newValue) {
-			            name.setText(newValue);
-			            if (newValue != null) {
-			            	email.setText(dataDept.get(newValue).getMail());
-			            	phone.setText(dataDept.get(newValue).getPhone());
-			            	logo.setImage(dataDept.get(newValue).getLogo());
-			            	dean.setImage(dataInst.get(newValue).getDean());
-			            	l1.setImage(dataInst.get(newValue).getLecture1());
-			            	l2.setImage(dataInst.get(newValue).getLecture2());
-			            	l3.setImage(dataInst.get(newValue).getLecture3());
-			            	l4.setImage(dataInst.get(newValue).getLecture4());
-			            }
-			        }
-			    });
+		new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				Platform.runLater(() -> {
+					spinnerLoading.setVisible(true);	
+				});
+				
+				ResultSet rsDept = DbHandler.getInstance().execQuery("SELECT deptID, name,mail,phone,logo, head_id FROM topicS.Department");
+				
+				try {
+					while (rsDept.next()) {
+						
+						String deptName = rsDept.getString("name");
+						String deptID = rsDept.getString("deptID");
+						String mail = rsDept.getString("mail");
+						String phone = rsDept.getString("phone");
+						String headID = rsDept.getString("head_id");
+						Instructor head = null;
+						Image logo = DbHandler.getInstance().convertBlob2Image(rsDept.getBlob("logo"));
+						ArrayList<Instructor> instructors = new ArrayList<>();
+						
+						ResultSet rsInstructors = DbHandler.getInstance().execQuery("SELECT * FROM topicS.Instructor WHERE deptID='"+deptID+"'");
+						while (rsInstructors.next()) {
+							String insID = rsInstructors.getString("instructorID");
+							String insName = rsInstructors.getString("fName") + " " + rsInstructors.getString("lName");
+							Date insBirthday = rsInstructors.getDate("birthday");
+							String degreeID = rsInstructors.getString("degreeID");
+							String degreeStr = "";
+							String insMail = rsInstructors.getString("mail");
+							String insPhone = rsInstructors.getString("phone");
+							Image img = DbHandler.convertBlob2Image(rsInstructors.getBlob("img"));
+							Date accessionDate = rsInstructors.getDate("accession_date");
+							String insdeptID = rsInstructors.getString("deptID");
+							
+							Instructor ins = new Instructor(insID, insName, insBirthday, degreeID, degreeStr, insMail, insPhone, img, accessionDate, insdeptID);
+							instructors.add(ins);
+							if (headID.equals(insID)) {
+								head = ins;
+							}
+						}
+						
+						Department dept = new Department(deptID, mail, phone, logo, headID, head, instructors);
+						
+						dataDept.put(deptName, dept);			
+					}
+					
+					options.addAll(dataDept.keySet());
+					
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+				
+				Platform.runLater(() -> {
+					cb.getSelectionModel().selectedItemProperty()
+					.addListener(new ChangeListener<String>() {
+						public void changed(ObservableValue<? extends String> observable,
+								String oldValue, String selectedValue) {
+							name.setText(selectedValue);
+							if (selectedValue != null) {
+								email.setText(dataDept.get(selectedValue).getMail());
+								phone.setText(dataDept.get(selectedValue).getPhone());
+								logo.setImage(dataDept.get(selectedValue).getLogo());
+								dean.setImage(dataDept.get(selectedValue).getHead().getImg());
+								
+								for (Instructor instructor : dataDept.get(selectedValue).getInstructorList()) {
+									// add each of instructor
+								}
+							}
+						}
+					});
+					
+					cb.setItems(options);
+					cb.setValue(null);
+					cb.getSelectionModel().select(0);			
+					
+				});
+				Platform.runLater(() -> {
+					spinnerLoading.setVisible(false);	
+				});
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		cb.setItems(options);
-		cb.setValue(null);
-		cb.getSelectionModel().select(0);
+			
+		}).start();
+		
 	}
 	
-	class Department{
+	class Department {
+		
+		String deptID;
 		String mail;
 		String phone;
 		Image logo;
-		/**
-		 * @param mail
-		 * @param phone
-		 * @param logo
-		 */
-		public Department(String mail, String phone, Image logo) {
+		String headID;
+		Instructor head;
+		ArrayList<Instructor> instructors = new ArrayList<>();
+
+		public Department(String deptID, String mail, String phone, Image logo, String headID, Instructor head, ArrayList<Instructor> instructors) {
 			super();
+			this.deptID = deptID;
 			this.mail = mail;
 			this.phone = phone;
 			this.logo = logo;
+			this.headID = headID;
+			this.head = head;
+			this.instructors = instructors;
 		}
-		public String getMail() {
-			return mail;
-		}
-		public void setMail(String mail) {
-			this.mail = mail;
-		}
-		public String getPhone() {
-			return phone;
-		}
+		public String getDeptID() {return deptID;}
+		public void setDeptID(String deptID) {this.deptID = deptID;}
+		public Instructor getHead() {return head;}
+		public void setHead(Instructor head) {this.head = head;}
+		public String getHeadID() {return headID;}
+		public void setHeadID(String headID) {this.headID = headID;}
+		public String getMail() {return mail;}
+		public void setMail(String mail) {this.mail = mail;}
+		public String getPhone() {return phone;}
 		public void setPhone(String phone) {
 			this.phone = phone;
 		}
-		public Image getLogo() {
-			return logo;
-		}
-		public void setLogo(Image logo) {
-			this.logo = logo;
-		}
+		public Image getLogo() {return logo;}
+		public void setLogo(Image logo) {this.logo = logo;}
+		public ArrayList<Instructor> getInstructorList() {return this.instructors;}
+		public void getInstructorList(ArrayList<Instructor> instructorList) {this.instructors = instructorList;}
 		
 	}
 	
 	class Instructor{
-		Image dean;
-		Image lecture1;
-		Image lecture2;
-		Image lecture3;
-		Image lecture4;
-		/**
-		 * @param dean
-		 * @param lecture1
-		 * @param lecture2
-		 * @param lecture3
-		 * @param lecture4
-		 */
-		public Instructor(Image dean, Image lecture1, Image lecture2, Image lecture3, Image lecture4) {
+		String id;
+		String name;
+		Date birthday;
+		String degreeID;
+		String degreeStr;
+		String mail;
+		String phone;
+		Image img;
+		Date accessionDate;
+		String deptID;
+		public Instructor(String id, String name, Date birthday, String degreeID, String degreeStr, String mail,
+				String phone, Image img, Date accessionDate, String deptID) {
 			super();
-			this.dean = dean;
-			this.lecture1 = lecture1;
-			this.lecture2 = lecture2;
-			this.lecture3 = lecture3;
-			this.lecture4 = lecture4;
+			this.id = id;
+			this.name = name;
+			this.birthday = birthday;
+			this.degreeID = degreeID;
+			this.degreeStr = degreeStr;
+			this.mail = mail;
+			this.phone = phone;
+			this.img = img;
+			this.accessionDate = accessionDate;
+			this.deptID = deptID;
 		}
-		public Image getDean() {
-			return dean;
-		}
-		public void setDean(Image dean) {
-			this.dean = dean;
-		}
-		public Image getLecture1() {
-			return lecture1;
-		}
-		public void setLecture1(Image lecture1) {
-			this.lecture1 = lecture1;
-		}
-		public Image getLecture2() {
-			return lecture2;
-		}
-		public void setLecture2(Image lecture2) {
-			this.lecture2 = lecture2;
-		}
-		public Image getLecture3() {
-			return lecture3;
-		}
-		public void setLecture3(Image lecture3) {
-			this.lecture3 = lecture3;
-		}
-		public Image getLecture4() {
-			return lecture4;
-		}
-		public void setLecture4(Image lecture4) {
-			this.lecture4 = lecture4;
-		}
+		public String getId() {return id;}
+		public void setId(String id) {this.id = id;}
+		public String getName() {return name;}
+		public void setName(String name) {this.name = name;}
+		public Date getBirthday() {return birthday;}
+		public void setBirthday(Date birthday) {this.birthday = birthday;}
+		public String getDegreeID() {return degreeID;}
+		public void setDegreeID(String degreeID) {this.degreeID = degreeID;}
+		public String getDegreeStr() {return degreeStr;}
+		public void setDegreeStr(String degreeStr) {this.degreeStr = degreeStr;}
+		public String getMail() {return mail;}
+		public void setMail(String mail) {this.mail = mail;}
+		public String getPhone() {return phone;}
+		public void setPhone(String phone) {this.phone = phone;}
+		public Image getImg() {return img;}
+		public void setImg(Image img) {this.img = img;}
+		public Date getAccessionDate() {return accessionDate;}
+		public void setAccessionDate(Date accessionDate) {this.accessionDate = accessionDate;}
+		public String getDeptID() {return deptID;}
+		public void setDeptID(String deptID) {this.deptID = deptID;}	
+		
 	}
+
 }

@@ -29,7 +29,7 @@ public class DbHandler {
     public static Connection getConnection() {
         String ConnectionString = "jdbc:mysql://" + Configs.dbHostname + ":" + Configs.dbPort + "/" + Configs.dbName;
         try {
-            Class.forName("com.mysql.jdbc.Driver");
+           // Class.forName("com.mysql.jdbc.Driver");
             conn = DriverManager.getConnection(ConnectionString, Configs.dbUsername, Configs.dbPassword);
             statement = conn.createStatement();
         } catch (Exception e) {
