@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.Circle?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="289.0" prefWidth="360.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <ImageView fitHeight="112.0" fitWidth="118.0" layoutX="121.0" layoutY="63.0" pickOnBounds="true" preserveRatio="true" />
+      <Circle fill="DODGERBLUE" layoutX="180.0" layoutY="119.0" radius="75.0" stroke="BLACK" strokeType="INSIDE" />
+   </children>
+</Pane>

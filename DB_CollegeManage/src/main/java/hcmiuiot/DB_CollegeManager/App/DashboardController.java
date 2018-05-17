@@ -18,6 +18,12 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -80,8 +86,8 @@ public class DashboardController implements Initializable {
     
     private void createPages() {
         try {
-            home = FXMLLoader.load(getClass().getResource("Overview.fxml"));
-            add = FXMLLoader.load(getClass().getResource ("CourseManage.fxml"));
+            home = FXMLLoader.load(getClass().getResource("DeptInstView.fxml"));
+            add = FXMLLoader.load(getClass().getResource("CourseManage.fxml"));
             list = FXMLLoader.load(getClass().getResource("StudentManage.fxml"));
             fixedBorderAnchor(home);
             fixedBorderAnchor(add);
