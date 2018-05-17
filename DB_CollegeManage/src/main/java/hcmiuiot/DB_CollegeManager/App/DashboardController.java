@@ -24,7 +24,7 @@ import javafx.util.Duration;
 
 public class DashboardController implements Initializable {
 	
-    @FXML
+	@FXML
     private AnchorPane stackPane;
 
     @FXML
@@ -34,21 +34,13 @@ public class DashboardController implements Initializable {
     private AnchorPane sideAnchor;
 
     @FXML
-    private JFXButton btnHome;
-    @FXML
     private JFXButton btnCourseManager;
 
     @FXML
     private JFXButton btnDepartmentManager;
 
     @FXML
-    private JFXButton btnInstructorManager;
-
-    @FXML
-    private JFXButton btnAdd;
-
-    @FXML
-    private JFXButton btnView;
+    private JFXButton btnStudent;
 
     @FXML
     private JFXButton btnLogout;
@@ -59,7 +51,7 @@ public class DashboardController implements Initializable {
     @FXML
     private AnchorPane holderPane;
     
-    private AnchorPane home, add, list;
+    private AnchorPane deptPage, coursePage, studentPage;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -88,49 +80,36 @@ public class DashboardController implements Initializable {
     
     private void createPages() {
         try {
-            home = FXMLLoader.load(getClass().getResource("DeptInstView.fxml"));
-            add = FXMLLoader.load(getClass().getResource("CourseManage.fxml"));
-            list = FXMLLoader.load(getClass().getResource("StudentManage.fxml"));
-            fixedBorderAnchor(home);
-            fixedBorderAnchor(add);
-            fixedBorderAnchor(list);
-            setNode(home);
+            deptPage = FXMLLoader.load(getClass().getResource("DeptInstView.fxml"));
+            coursePage = FXMLLoader.load(getClass().getResource("CourseManage.fxml"));
+            studentPage = FXMLLoader.load(getClass().getResource("StudentManage.fxml"));
+            fixedBorderAnchor(deptPage);
+            fixedBorderAnchor(coursePage);
+            fixedBorderAnchor(studentPage);
+            setNode(deptPage);
         } catch (IOException ex) {
             Logger.getLogger(DashboardController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    @FXML
-    private void onOpenHome(ActionEvent event) {
-        setNode(home);
-    }
+    
     @FXML
     void onCourseManager(ActionEvent event) {
-
+    	setNode(coursePage);
     }
 
     @FXML
     void onDepartmentManager(ActionEvent event) {
-
+    	setNode(deptPage);
     }
     @FXML
-    void onInstructorManager(ActionEvent event) {
-
+    void onStudentManager(ActionEvent event) {
+    	setNode(studentPage);
     }
 
 
     @FXML
-    private void onOpenAddStudent(ActionEvent event) {
-        setNode(add);
-    }
-
-    @FXML
-    private void onOpenListStudent(ActionEvent event) {
-        setNode(list);
-    }
-
-    @FXML
-    private void onLogOff(ActionEvent event) {
+    private void onLogOut(ActionEvent event) {
     	btnLogout.getScene().getWindow().hide();
     	try {
     		Stage dashboardStage = new Stage();
