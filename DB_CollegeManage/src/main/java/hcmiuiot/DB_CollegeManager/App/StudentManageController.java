@@ -4,6 +4,7 @@ import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.ResourceBundle;
 import java.util.function.Predicate;
 
@@ -96,13 +97,14 @@ public class StudentManageController implements Initializable {
     private ResultSet tableData, deptList;
 	private TreeItem<Student> tableItem;
 	private ObservableList<String> deptName;
+	private HashMap<String, String> deptMap;
     
     private void loadDeptList() {
-		deptList = DbHandler.execQuery("SELECT name FROM topicS.Department");
+		deptList = DbHandler.execQuery("SELECT name, deptID FROM topicS.Department");
 	}
 
 	private void loadDB() {
-		tableData = DbHandler.execQuery("SELECT * FROM topicS.Student");
+		tableData = DbHandler.execQuery("SELECT studentID, fName, lName, birthday, deptID FROM topicS.Student");
 	}
 
 	@Override
@@ -156,13 +158,14 @@ public class StudentManageController implements Initializable {
 		
 		txtFieldSearch.textProperty().addListener(new ChangeListener<String>() {
 			@Override
-			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+			public void changed(ObservableValue<? extends String> observable, String oldValue, String filter) {
 
 				tableView.setPredicate(new Predicate<TreeItem<Student>>() {
 					@Override
 					public boolean test(TreeItem<Student> t) {
-//						System.out.println(newValue);
-						Boolean flag = t.getValue().studentID.getValue().contains(newValue);
+						Boolean flag = t.getValue().studentID.getValue().contains(filter) || 
+									   t.getValue().fName.getValue().contains(filter) ||
+									   t.getValue().lName.getValue().contains(filter);
 						return flag;
 					}
 				});
@@ -196,10 +199,13 @@ public class StudentManageController implements Initializable {
 	
 	private void updateChoiceBoxView() {
 		deptName = FXCollections.observableArrayList();
+		deptMap = new HashMap<>();
 		deptName.add("--All--");
 		try {
 			while (deptList.next()) {
 				String dept = deptList.getString("name");
+				String deptID = deptList.getString("deptID");
+				deptMap.put(dept, deptID);
 				deptName.add(dept);
 			}
 		} catch (SQLException e) {
@@ -213,9 +219,9 @@ public class StudentManageController implements Initializable {
 			public void changed(ObservableValue<? extends Number> observableValue, Number number, Number number2) {
 				System.out.println(chBoxDepartPick.getItems().get(number2.intValue()));
 				if (number2.intValue() > 0) {
-					tableData = DbHandler.execQuery("SELECT * FROM topicS.Student WHERE deptID IN (SELECT deptID FROM topicS.Department WHERE name = '"+ chBoxDepartPick.getItems().get(number2.intValue()) + "');");
+					tableData = DbHandler.execQuery("SELECT studentID, fName, lName, birthday, deptID FROM topicS.Student WHERE deptID='"+deptMap.get(chBoxDepartPick.getItems().get(number2.intValue()))+"'");
 				} else {
-					tableData = DbHandler.execQuery("SELECT * FROM topicS.Student");
+					tableData = DbHandler.execQuery("SELECT studentID, fName, lName, birthday, deptID FROM topicS.Student");
 				}
 				updateTableView(tableData);
 			}
