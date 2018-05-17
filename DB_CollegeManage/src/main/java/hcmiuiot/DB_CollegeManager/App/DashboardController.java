@@ -35,6 +35,14 @@ public class DashboardController implements Initializable {
 
     @FXML
     private JFXButton btnHome;
+    @FXML
+    private JFXButton btnCourseManager;
+
+    @FXML
+    private JFXButton btnDepartmentManager;
+
+    @FXML
+    private JFXButton btnInstructorManager;
 
     @FXML
     private JFXButton btnAdd;
@@ -96,6 +104,20 @@ public class DashboardController implements Initializable {
     private void onOpenHome(ActionEvent event) {
         setNode(home);
     }
+    @FXML
+    void onCourseManager(ActionEvent event) {
+
+    }
+
+    @FXML
+    void onDepartmentManager(ActionEvent event) {
+
+    }
+    @FXML
+    void onInstructorManager(ActionEvent event) {
+
+    }
+
 
     @FXML
     private void onOpenAddStudent(ActionEvent event) {
