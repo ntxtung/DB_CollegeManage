@@ -81,8 +81,8 @@ public class DashboardController implements Initializable {
     private void createPages() {
         try {
             home = FXMLLoader.load(getClass().getResource("Overview.fxml"));
-            add = FXMLLoader.load(getClass().getResource("CourseManage.fxml"));
-            list = FXMLLoader.load(getClass().getResource("CourseManage.fxml"));
+            add = FXMLLoader.load(getClass().getResource ("CourseManage.fxml"));
+            list = FXMLLoader.load(getClass().getResource("StudentManage.fxml"));
             fixedBorderAnchor(home);
             fixedBorderAnchor(add);
             fixedBorderAnchor(list);

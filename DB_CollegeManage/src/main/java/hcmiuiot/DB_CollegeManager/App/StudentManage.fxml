@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import com.jfoenix.controls.JFXTreeTableView?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.TreeTableColumn?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="592.0" prefWidth="980.0" stylesheets="@CourseManage.css" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hcmiuiot.DB_CollegeManager.App.StudentManageController">
+   <children>
+      <JFXTreeTableView fx:id="tableView" layoutX="14.0" layoutY="154.0" prefHeight="430.0" prefWidth="890.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="151.60000000000002">
+         <columns>
+            <TreeTableColumn fx:id="studentID" prefWidth="81.0" text="Student ID" />
+            <TreeTableColumn fx:id="fName" prefWidth="171.0" text="First name" />
+            <TreeTableColumn fx:id="lName" prefWidth="91.0" text="Last name" />
+            <TreeTableColumn fx:id="dateOfBirth" prefWidth="106.0" text="Date of birth" />
+            <TreeTableColumn fx:id="deptID" prefWidth="129.33331298828125" text="Department ID" />
+         </columns></JFXTreeTableView>
+      <ChoiceBox fx:id="chBoxDepartPick" layoutX="14.0" layoutY="95.0" prefHeight="26.0" prefWidth="222.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="95.0" />
+      <JFXTextField fx:id="txtFieldSearch" layoutX="264.0" layoutY="104.0" prefHeight="26.0" prefWidth="520.0" AnchorPane.leftAnchor="264.0" AnchorPane.rightAnchor="24.0" AnchorPane.topAnchor="104.0" />
+      <JFXButton fx:id="btnAddStudent" layoutX="20.0" layoutY="547.0" onAction="#onAddStudent" prefHeight="39.0" prefWidth="115.0" style="-fx-background-color: #82B1FF;" text="Add new student" AnchorPane.bottomAnchor="5.799999999999997" AnchorPane.leftAnchor="20.0">
+         <font>
+            <Font name="Roboto Bold" size="12.0" />
+         </font>
+      </JFXButton>
+      <JFXButton fx:id="btnEditStudent" layoutX="708.0" layoutY="548.0" onAction="#onEdit" prefHeight="39.0" prefWidth="115.0" style="-fx-background-color: #80CBC4;" text="Edit" AnchorPane.bottomAnchor="4.7999999999999545" AnchorPane.rightAnchor="156.79999999999995">
+         <font>
+            <Font name="Roboto Bold" size="12.0" />
+         </font></JFXButton>
+      <JFXButton fx:id="btnDeleteStudent" layoutX="831.0" layoutY="547.0" onAction="#onDelete" prefHeight="39.0" prefWidth="115.0" style="-fx-background-color: #FF8A65;" text="Delete" AnchorPane.bottomAnchor="5.7999999999999545" AnchorPane.rightAnchor="33.8">
+         <font>
+            <Font name="Roboto Bold" size="12.0" />
+         </font></JFXButton>
+   </children>
+</AnchorPane>
