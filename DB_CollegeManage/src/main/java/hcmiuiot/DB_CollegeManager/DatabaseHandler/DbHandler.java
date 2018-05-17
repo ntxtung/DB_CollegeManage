@@ -3,6 +3,7 @@ package hcmiuiot.DB_CollegeManager.DatabaseHandler;
 import java.sql.Statement;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -31,7 +32,7 @@ public class DbHandler {
 		return instance;
 	}
 
-	public static ResultSet execSQL(String sql) {
+	public static ResultSet execQuery(String sql) {
 		Statement statement;
 		try {
 			statement = conn.createStatement();
@@ -40,6 +41,26 @@ public class DbHandler {
 			System.err.println(e.getMessage());
 		}
 		return null;
+	}
+	
+	public static int execUpdate(String sql) {
+		Statement statement;
+		try {
+			statement = conn.createStatement();
+			return statement.executeUpdate(sql);
+		} catch (SQLException e) {
+			System.err.println(e.getMessage());
+		}
+		return 0;
+	}
+	
+	public PreparedStatement getPreparedStatement(String sql) {
+		try {
+			return conn.prepareStatement(sql);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 }

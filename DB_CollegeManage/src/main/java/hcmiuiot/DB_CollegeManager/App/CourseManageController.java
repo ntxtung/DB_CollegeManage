@@ -1,10 +1,15 @@
 package hcmiuiot.DB_CollegeManager.App;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.function.Predicate;
 
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXTreeTableView;
 import com.jfoenix.controls.RecursiveTreeItem;
@@ -20,11 +25,18 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.control.ChoiceBox;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableColumn;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 
 class Course extends RecursiveTreeObject<Course> {
@@ -50,7 +62,6 @@ class Course extends RecursiveTreeObject<Course> {
 		this.maxSlot = new SimpleIntegerProperty(maxSlot);
 		this.room = new SimpleStringProperty(room);
 	}
-
 }
 
 public class CourseManageController implements Initializable {
@@ -58,42 +69,56 @@ public class CourseManageController implements Initializable {
 	private JFXTreeTableView<Course> tableView;
 
 	@FXML
-	private ChoiceBox<String> chBoxDepartPick;
+    private JFXComboBox<String> chBoxDepartPick;
 
 	@FXML
 	private JFXTextField txtFieldSearch;
-	
+
 	@FXML
-    private TreeTableColumn<Course, String> courseID;
+	private TreeTableColumn<Course, String> courseID;
 
-    @FXML
-    private TreeTableColumn<Course, String> departmentID;
+	@FXML
+	private TreeTableColumn<Course, String> departmentID;
 
-    @FXML
-    private TreeTableColumn<Course, String> name;
+	@FXML
+	private TreeTableColumn<Course, String> name;
 
-    @FXML
-    private TreeTableColumn<Course, String> beginDate;
+	@FXML
+	private TreeTableColumn<Course, String> beginDate;
 
-    @FXML
-    private TreeTableColumn<Course, String> endDate;
+	@FXML
+	private TreeTableColumn<Course, String> endDate;
 
-    @FXML
-    private TreeTableColumn<Course, Number> fee;
+	@FXML
+	private TreeTableColumn<Course, Number> fee;
 
-    @FXML
-    private TreeTableColumn<Course, Number> numberOfCredits;
+	@FXML
+	private TreeTableColumn<Course, Number> numberOfCredits;
 
-    @FXML
-    private TreeTableColumn<Course, Number> maxSlot;
+	@FXML
+	private TreeTableColumn<Course, Number> maxSlot;
 
-    @FXML
-    private TreeTableColumn<Course, String> room;
-    
-    @FXML
-    private TreeTableColumn<?, ?> action;
+	@FXML
+	private TreeTableColumn<Course, String> room;
 
-	private ResultSet result, deptList;
+	@FXML
+	private JFXButton btnAddCourse;
+
+	@FXML
+	private JFXButton btnEditCourse;
+
+	@FXML
+	private JFXButton btnDeleteCourse;
+
+	@FXML
+	private JFXButton btnStdDetail;
+
+	@FXML
+	private JFXButton btnInstructorDetail;
+
+	private ResultSet tableData, deptList;
+	private TreeItem<Course> tableItem;
+	private ObservableList<String> deptName;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -171,42 +196,136 @@ public class CourseManageController implements Initializable {
 						return param.getValue().getValue().room;
 					}
 				});
-		updateTableView(result);
+		updateTableView(tableData);
 		updateChoiceBoxView();
 
+		txtFieldSearch.textProperty().addListener(new ChangeListener<String>() {
+			@Override
+			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+
+				tableView.setPredicate(new Predicate<TreeItem<Course>>() {
+					@Override
+					public boolean test(TreeItem<Course> t) {
+						// System.out.println(newValue);
+						Boolean flag = t.getValue().name.getValue().contains(newValue);
+						return flag;
+					}
+				});
+			}
+		});
 	}
-	
-	private void updateTableView(ResultSet result) {
+
+	@FXML
+	public void onAddCourse(ActionEvent event) throws IOException {
+		Stage formStage = new Stage();
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(getClass().getResource("CourseManage_CourseForm.fxml"));
+		loader.load();
+
+//		CourseManager_CourseFormController form = loader.getController();
+
+		Parent root = loader.getRoot();
+		Scene scene = new Scene(root);
+
+		formStage.setScene(scene);
+		formStage.setResizable(false);
+		formStage.setTitle("Add course");
+		formStage.showAndWait();
+	}
+
+	@FXML
+	public void onDelete(ActionEvent event) {
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("Confirm Deletion");
+		alert.setHeaderText("Do you want to delete this course?");
+		alert.setContentText("WARNING: You cannot undo this action");
+
+		Optional<ButtonType> result = alert.showAndWait();
+
+		TreeItem<Course> selectedCourse = tableView.getSelectionModel().getSelectedItem();
+		// System.out.println(selectedCourse.getValue().courseID.get());
+
+		if (result.get() == ButtonType.OK) {
+			DbHandler.execUpdate(
+					"DELETE FROM topicS.Course WHERE courseID = \"" + selectedCourse.getValue().courseID.get() + "\";");
+			refreshTableView();
+		} else {
+			// Beautiful thing ♥
+		}
+	}
+
+	@FXML
+	public void onEdit(ActionEvent event) throws IOException {
+		Stage formStage = new Stage();
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(getClass().getResource("CourseManage_CourseForm.fxml"));
+		loader.load();
+
+		CourseManager_CourseFormController form = loader.getController();
+		TreeItem<Course> selectedCourse = tableView.getSelectionModel().getSelectedItem();
+
+		String _courseID = selectedCourse.getValue().courseID.get();
+		String _deptID = selectedCourse.getValue().deptID.get();
+		String _courseName = selectedCourse.getValue().name.get();
+		String _beginDate = selectedCourse.getValue().beginDate.get();
+		String _endDate = selectedCourse.getValue().endDate.get();
+		String _fee = selectedCourse.getValue().fee.getValue().toString();
+		String _numCre = selectedCourse.getValue().numberOfCredit.getValue().toString();
+		String _maxSlot = selectedCourse.getValue().maxSlot.getValue().toString();
+		String _room = selectedCourse.getValue().room.get();
+
+		form.setInitData(_courseID, _deptID, _courseName, _beginDate, _endDate, _fee, _numCre, _maxSlot, _room);
+		form.setToEditMode();
+		
+		Parent root = loader.getRoot();
+		Scene scene = new Scene(root);
+		formStage.setScene(scene);
+		formStage.setResizable(false);
+		formStage.setTitle("Edit course");
+		formStage.showAndWait();
+	}
+
+	@FXML
+	public void onInstructorDetail(ActionEvent event) {
+
+	}
+
+	@FXML
+	public void onStdDetail(ActionEvent event) {
+
+	}
+
+	private void updateTableView(ResultSet inputResult) {
 		ObservableList<Course> courses = FXCollections.observableArrayList();
 
 		try {
-			while (result.next()) {
-				String _courseId = result.getString("courseID");
-				String _deptId = result.getString("deptID");
-				String _name = result.getString("name");
-				String _beginDate = result.getString("begin_date");
-				String _endDate = result.getString("end_date");
-				double _fee = result.getDouble("fee");
-				int _numberOfCredits = result.getInt("num_of_credits");
-				int _maxSlot = result.getInt("max_slot");
-				String _room = result.getString("room");
-				courses.add(new Course(_courseId, _deptId, _name, _beginDate, _endDate, _fee, _numberOfCredits, _maxSlot,
-						_room));
+			while (inputResult.next()) {
+				String _courseId = inputResult.getString("courseID");
+				String _deptId = inputResult.getString("deptID");
+				String _name = inputResult.getString("name");
+				String _beginDate = inputResult.getString("begin_date");
+				String _endDate = inputResult.getString("end_date");
+				double _fee = inputResult.getDouble("fee");
+				int _numberOfCredits = inputResult.getInt("num_of_credits");
+				int _maxSlot = inputResult.getInt("max_slot");
+				String _room = inputResult.getString("room");
+				courses.add(new Course(_courseId, _deptId, _name, _beginDate, _endDate, _fee, _numberOfCredits,
+						_maxSlot, _room));
 
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 
-		final TreeItem<Course> root = new RecursiveTreeItem<Course>(courses, RecursiveTreeObject::getChildren);
+		tableItem = new RecursiveTreeItem<Course>(courses, RecursiveTreeObject::getChildren);
 		tableView.getColumns().setAll(courseID, departmentID, name, beginDate, endDate, fee, numberOfCredits, room,
 				maxSlot);
-		tableView.setRoot(root);
+		tableView.setRoot(tableItem);
 		tableView.setShowRoot(false);
 	}
-	
+
 	private void updateChoiceBoxView() {
-		ObservableList<String> deptName = FXCollections.observableArrayList();
+		deptName = FXCollections.observableArrayList();
 		deptName.add("--All--");
 		try {
 			while (deptList.next()) {
@@ -216,24 +335,44 @@ public class CourseManageController implements Initializable {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+
 		chBoxDepartPick.setItems(deptName);
 		chBoxDepartPick.getSelectionModel().selectFirst();
-//		chBoxDepartPick.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<>() {
-//		      @Override
-//		      public void changed(ObservableValue<? extends Number> observableValue, Number number, Number number2) {
-//		    	  ResultSet res;
-//		    	  System.out.println(chBoxDepartPick.);
-//		      }
-//		    });
+		chBoxDepartPick.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<>() {
+			@Override
+			public void changed(ObservableValue<? extends Number> observableValue, Number number, Number number2) {
+				System.out.println(chBoxDepartPick.getItems().get(number2.intValue()));
+				if (number2.intValue() > 0) {
+					tableData = DbHandler.execQuery(
+							"SELECT * FROM topicS.Course WHERE deptID IN (SELECT deptID FROM topicS.Department WHERE name = '"
+									+ chBoxDepartPick.getItems().get(number2.intValue()) + "');");
+				} else {
+					tableData = DbHandler.execQuery("SELECT * FROM topicS.Course");
+				}
+				updateTableView(tableData);
+			}
+		});
 	}
-	
+
+	private void refreshTableView() {
+		String choice = chBoxDepartPick.getItems().get(chBoxDepartPick.getSelectionModel().getSelectedIndex());
+		if (choice.equals("--All--")) {
+			loadDB();
+		} else {
+			tableData = DbHandler.execQuery(
+					"SELECT * FROM topicS.Course WHERE deptID IN (SELECT deptID FROM topicS.Department WHERE name = '"
+							+ chBoxDepartPick.getSelectionModel().getSelectedItem()
+							+ "');");
+		}
+		updateTableView(tableData);
+	}
+
 	private void loadDeptList() {
-		deptList = DbHandler.execSQL("SELECT name FROM topicS.Department");
+		deptList = DbHandler.execQuery("SELECT name FROM topicS.Department");
 	}
-	
+
 	private void loadDB() {
-		result = DbHandler.execSQL("SELECT * FROM topicS.Course");
+		tableData = DbHandler.execQuery("SELECT * FROM topicS.Course");
 	}
 
 }
