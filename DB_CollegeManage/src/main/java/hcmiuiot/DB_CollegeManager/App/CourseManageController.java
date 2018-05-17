@@ -1,5 +1,6 @@
 package hcmiuiot.DB_CollegeManager.App;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -25,9 +26,13 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.stage.Stage;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TreeItem;
@@ -57,7 +62,6 @@ class Course extends RecursiveTreeObject<Course> {
 		this.maxSlot = new SimpleIntegerProperty(maxSlot);
 		this.room = new SimpleStringProperty(room);
 	}
-
 }
 
 public class CourseManageController implements Initializable {
@@ -112,8 +116,9 @@ public class CourseManageController implements Initializable {
     @FXML
     private JFXButton btnInstructorDetail;
 
-	private ResultSet result, deptList;
-	private TreeItem<Course> root;
+	private ResultSet tableData, deptList;
+	private TreeItem<Course> tableItem;
+	private ObservableList<String> deptName;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -191,7 +196,7 @@ public class CourseManageController implements Initializable {
 						return param.getValue().getValue().room;
 					}
 				});
-		updateTableView(result);
+		updateTableView(tableData);
 		updateChoiceBoxView();
 		
 		txtFieldSearch.textProperty().addListener(new ChangeListener<String>() {
@@ -208,12 +213,24 @@ public class CourseManageController implements Initializable {
 				});
 			}
 		});      
-
 	}
 	
     @FXML
-    public void onAddCourse(ActionEvent event) {
-
+    public void onAddCourse(ActionEvent event) throws IOException {
+    	Stage formStage = new Stage();
+        formStage.setTitle("");
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("CourseManage_CourseForm.fxml"));
+        loader.load();
+        
+        CourseManager_CourseFormController form = loader.getController();
+        
+        Parent root = loader.getRoot();
+        Scene scene = new Scene(root);
+        
+        formStage.setScene(scene);
+        formStage.setResizable(false);
+        formStage.showAndWait();
     }
 
     @FXML
@@ -273,15 +290,15 @@ public class CourseManageController implements Initializable {
 			e.printStackTrace();
 		}
 
-		root = new RecursiveTreeItem<Course>(courses, RecursiveTreeObject::getChildren);
+		tableItem = new RecursiveTreeItem<Course>(courses, RecursiveTreeObject::getChildren);
 		tableView.getColumns().setAll(courseID, departmentID, name, beginDate, endDate, fee, numberOfCredits, room,
 				maxSlot);
-		tableView.setRoot(root);
+		tableView.setRoot(tableItem);
 		tableView.setShowRoot(false);
 	}
 
 	private void updateChoiceBoxView() {
-		ObservableList<String> deptName = FXCollections.observableArrayList();
+		deptName = FXCollections.observableArrayList();
 		deptName.add("--All--");
 		try {
 			while (deptList.next()) {
@@ -299,11 +316,11 @@ public class CourseManageController implements Initializable {
 			public void changed(ObservableValue<? extends Number> observableValue, Number number, Number number2) {
 				System.out.println(chBoxDepartPick.getItems().get(number2.intValue()));
 				if (number2.intValue() > 0) {
-					result = DbHandler.execQuery("SELECT * FROM topicS.Course WHERE deptID IN (SELECT deptID FROM topicS.Department WHERE name = '"+ chBoxDepartPick.getItems().get(number2.intValue()) + "');");
+					tableData = DbHandler.execQuery("SELECT * FROM topicS.Course WHERE deptID IN (SELECT deptID FROM topicS.Department WHERE name = '"+ chBoxDepartPick.getItems().get(number2.intValue()) + "');");
 				} else {
-					result = DbHandler.execQuery("SELECT * FROM topicS.Course");
+					tableData = DbHandler.execQuery("SELECT * FROM topicS.Course");
 				}
-				updateTableView(result);
+				updateTableView(tableData);
 			}
 		});
 	}
@@ -313,9 +330,9 @@ public class CourseManageController implements Initializable {
 		if (choice.equals("--All--")) {
 			loadDB();
 		} else {
-			result = DbHandler.execQuery("SELECT * FROM topicS.Course WHERE deptID IN (SELECT deptID FROM topicS.Department WHERE name = '"+ chBoxDepartPick.getItems().get(chBoxDepartPick.getSelectionModel().getSelectedIndex()) + "');");
+			tableData = DbHandler.execQuery("SELECT * FROM topicS.Course WHERE deptID IN (SELECT deptID FROM topicS.Department WHERE name = '"+ chBoxDepartPick.getItems().get(chBoxDepartPick.getSelectionModel().getSelectedIndex()) + "');");
 		}
-		updateTableView(result);
+		updateTableView(tableData);
 	}
 	
 	private void loadDeptList() {
@@ -323,7 +340,7 @@ public class CourseManageController implements Initializable {
 	}
 
 	private void loadDB() {
-		result = DbHandler.execQuery("SELECT * FROM topicS.Course");
+		tableData = DbHandler.execQuery("SELECT * FROM topicS.Course");
 	}
 
 }
