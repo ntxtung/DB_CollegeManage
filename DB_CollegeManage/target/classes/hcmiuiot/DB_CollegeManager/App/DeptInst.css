@@ -1,0 +1,12 @@
+.combo-box .cell{
+    -fx-text-fill: black;
+}
+.my-list-cell {
+    -fx-text-fill: black;
+    /* No alternate highlighting */
+    -fx-background-color: #FFF;
+}
+
+.circle-img {
+	-fx-border-radius: 50%;
+}

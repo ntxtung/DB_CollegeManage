@@ -14,8 +14,8 @@ import com.jfoenix.validation.RequiredFieldValidator;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
-import hcmiuiot.DB_CollegeManage.Extensions.ExportUtils;
 import hcmiuiot.DB_CollegeManager.DatabaseHandler.DbHandler;
+import hcmiuiot.DB_CollegeManager.Extensions.ExportUtils;
 import javafx.application.Platform;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -117,12 +117,6 @@ public class LoginController implements Initializable{
             Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        new Thread(new Runnable() {
-        	public void run() {
-        		ExportUtils.exportResultSet("SELECT * FROM Instructor", DbHandler.getInstance(), "a.xlsx");
-        	}
-        }
-        ).start();
     }
 
 }
