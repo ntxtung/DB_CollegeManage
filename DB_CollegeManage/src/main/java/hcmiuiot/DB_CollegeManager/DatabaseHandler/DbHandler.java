@@ -21,25 +21,7 @@ public class DbHandler {
 		return instance;
 	}
 
-	public static DbHandler login(String username, String password) {
-		Statement statement;
-		String ConnectionString = "jdbc:mysql://" + Configs.dbHostname + ":" + Configs.dbPort + "/" + Configs.dbName;
-		try {
-			// Class.forName("com.mysql.jdbc.Driver");
-			conn = DriverManager.getConnection(ConnectionString, username, password);
-			statement = conn.createStatement();
-			instance = new DbHandler();
-		} catch (Exception e) {
-			System.err.println(e.getMessage());
-			instance = null;
-		}
-		return instance;
 	}
-
-	public static ResultSet execQuery(String sql) {
-		Statement statement;
-		try {
-			statement = conn.createStatement();
 			return statement.executeQuery(sql);
 		} catch (SQLException e) {
 			System.err.println(e.getMessage());

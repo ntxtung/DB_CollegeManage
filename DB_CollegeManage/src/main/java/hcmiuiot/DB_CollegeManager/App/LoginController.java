@@ -3,6 +3,7 @@ package hcmiuiot.DB_CollegeManager.App;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -13,6 +14,7 @@ import com.jfoenix.validation.RequiredFieldValidator;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import hcmiuiot.DB_CollegeManage.Extensions.ExportUtils;
 import hcmiuiot.DB_CollegeManager.DatabaseHandler.DbHandler;
 import javafx.application.Platform;
 import javafx.beans.value.ObservableValue;
@@ -114,7 +116,13 @@ public class LoginController implements Initializable{
         } catch (IOException ex) {
             Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        
+        new Thread(new Runnable() {
+        	public void run() {
+        		ExportUtils.exportResultSet("SELECT * FROM Instructor", DbHandler.getInstance(), "a.xlsx");
+        	}
+        }
+        ).start();
     }
 
 }
