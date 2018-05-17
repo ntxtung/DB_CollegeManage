@@ -18,11 +18,11 @@
             <TreeTableColumn fx:id="beginDate" prefWidth="85.33322143554688" text="Begin Date" />
             <TreeTableColumn fx:id="endDate" prefWidth="107.4666748046875" text="End Date" />
             <TreeTableColumn fx:id="fee" prefWidth="84.80007934570312" text="Fee" />
-            <TreeTableColumn fx:id="numberOfCredits" prefWidth="104.5333251953125" text="Number of credits" />
+            <TreeTableColumn fx:id="numberOfCredits" prefWidth="104.5333251953125" text="#numCredits" />
             <TreeTableColumn fx:id="maxSlot" prefWidth="109.86676025390625" text="Max Slot" />
             <TreeTableColumn fx:id="room" prefWidth="129.33331298828125" text="Room" />
          </columns></JFXTreeTableView>
-      <JFXComboBox fx:id="chBoxDepartPick" layoutX="10.0" layoutY="91.0" prefHeight="26.0" prefWidth="224.0" />
+      <JFXComboBox fx:id="chBoxDepartPick" layoutX="10.0" layoutY="95.0" prefHeight="26.0" prefWidth="224.0" />
       <JFXTextField fx:id="txtFieldSearch" layoutX="264.0" layoutY="104.0" prefHeight="26.0" prefWidth="692.0" AnchorPane.leftAnchor="264.0" AnchorPane.rightAnchor="24.0" AnchorPane.topAnchor="104.0" />
       <JFXButton fx:id="btnAddCourse" layoutX="20.0" layoutY="547.0" onAction="#onAddCourse" prefHeight="39.0" prefWidth="115.0" style="-fx-background-color: #82B1FF;" text="Add Course" AnchorPane.bottomAnchor="5.799999999999997" AnchorPane.leftAnchor="20.0">
          <font>

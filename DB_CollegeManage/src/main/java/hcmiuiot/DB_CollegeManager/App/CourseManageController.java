@@ -361,7 +361,7 @@ public class CourseManageController implements Initializable {
 		} else {
 			tableData = DbHandler.execQuery(
 					"SELECT * FROM topicS.Course WHERE deptID IN (SELECT deptID FROM topicS.Department WHERE name = '"
-							+ chBoxDepartPick.getItems().get(chBoxDepartPick.getSelectionModel().getSelectedIndex())
+							+ chBoxDepartPick.getSelectionModel().getSelectedItem()
 							+ "');");
 		}
 		updateTableView(tableData);
