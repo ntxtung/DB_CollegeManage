@@ -54,7 +54,7 @@ public class CourseManager_CourseFormController implements Initializable {
 	@FXML
 	private JFXButton btnOK;
 	
-	private ObservableList<String> deptName;
+	private ObservableList<String> deptID;
 	private ResultSet deptList;
 
 	private StringConverter<LocalDate> dateFormat = new StringConverter<LocalDate>() {
@@ -104,21 +104,22 @@ public class CourseManager_CourseFormController implements Initializable {
 	}
 	
 	private void updateChoiceBoxView() {
-		deptName = FXCollections.observableArrayList();
-		deptName.add("lasda");
+		chBoxDeptList = new ChoiceBox<>();
+		deptID = FXCollections.observableArrayList();
+		deptID.add("lasda");
 		try {
 			while (deptList.next()) {
 				String dept = deptList.getString("deptID");
-				deptName.add(dept);
+				deptID.add(dept);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 
-		chBoxDeptList.setItems(deptName);
+		chBoxDeptList.setItems(deptID);
 	}
 	
 	private void loadDeptList() {
-		deptList = DbHandler.execQuery("SELECT deptID FROM topicS.Department;");
+		deptList = DbHandler.execQuery("SELECT * FROM topicS.Department;");
 	}
 }
