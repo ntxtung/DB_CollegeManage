@@ -20,9 +20,10 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
@@ -47,8 +48,12 @@ public class DeptInstController implements Initializable {
 	private JFXSpinner spinnerLoading;
 	@FXML
 	private Circle circleDean;
+//	@FXML
+//	private Text deanDetails;
 	@FXML
-	private TextArea deanDetails;
+	private ScrollPane instScroll;
+	@FXML
+	private AnchorPane instAnchor;
 	
 	final ObservableList<String> options = FXCollections.observableArrayList();
 	final HashMap<String, Department> dataDept = new HashMap<String, Department>();
@@ -126,9 +131,6 @@ public class DeptInstController implements Initializable {
 								logo.setImage(dataDept.get(selectedValue).getLogo());
 								dean.setImage(dataDept.get(selectedValue).getHead().getImg());
 								loadRoundImage(circleDean, dean,circleDean.getRadius());
-								deanDetails.setText(dataDept.get(selectedValue).getMail());
-								deanDetails.setText("\n");
-//								deanDetails.setText(dataDept.get(selectedValue).getPhone());
 								
 								for (Instructor instructor : dataDept.get(selectedValue).getInstructorList()) {
 									// add each of instructor
