@@ -8,37 +8,35 @@ import java.io.ByteArrayInputStream;
 import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class DbHandler {
-	
+
 	private static DbHandler instance;
-
-    private static Connection conn;
-    private static Statement statement;
+  private static Connection conn;
     
-    public static DbHandler getInstance() {
-    	if (instance == null) {
-    		instance = new DbHandler();
-    		instance.getConnection();
-    	}
-    	return instance;
-    }
+	public static DbHandler getInstance() {
+		return instance;
+	}
 
-    public static Connection getConnection() {
-        String ConnectionString = "jdbc:mysql://" + Configs.dbHostname + ":" + Configs.dbPort + "/" + Configs.dbName;
-        try {
-           // Class.forName("com.mysql.jdbc.Driver");
-            conn = DriverManager.getConnection(ConnectionString, Configs.dbUsername, Configs.dbPassword);
-            statement = conn.createStatement();
-        } catch (Exception e) {
-        	System.err.println(e.getMessage());
-        }
-        return conn;
-    }
-    
-    public static ResultSet execQuery(String sql) {
+	public static DbHandler login(String username, String password) {
+		Statement statement;
+		String ConnectionString = "jdbc:mysql://" + Configs.dbHostname + ":" + Configs.dbPort + "/" + Configs.dbName;
+		try {
+			// Class.forName("com.mysql.jdbc.Driver");
+			conn = DriverManager.getConnection(ConnectionString, username, password);
+			statement = conn.createStatement();
+			instance = new DbHandler();
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+			instance = null;
+		}
+		return instance;
+	}
+
+	public static ResultSet execQuery(String sql) {
 		Statement statement;
 		try {
 			statement = conn.createStatement();
@@ -72,4 +70,14 @@ public class DbHandler {
 		 			}
 		     	return null;
 		     }
+
+	public PreparedStatement getPreparedStatement(String sql) {
+		try {
+			return conn.prepareStatement(sql);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
 }
