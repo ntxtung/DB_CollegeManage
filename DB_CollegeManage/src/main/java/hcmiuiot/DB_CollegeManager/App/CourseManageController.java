@@ -9,6 +9,7 @@ import java.util.ResourceBundle;
 import java.util.function.Predicate;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXTreeTableView;
 import com.jfoenix.controls.RecursiveTreeItem;
@@ -32,11 +33,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.stage.Stage;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableColumn;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 
 class Course extends RecursiveTreeObject<Course> {
@@ -69,7 +69,7 @@ public class CourseManageController implements Initializable {
 	private JFXTreeTableView<Course> tableView;
 
 	@FXML
-	private ChoiceBox<String> chBoxDepartPick;
+    private JFXComboBox<String> chBoxDepartPick;
 
 	@FXML
 	private JFXTextField txtFieldSearch;

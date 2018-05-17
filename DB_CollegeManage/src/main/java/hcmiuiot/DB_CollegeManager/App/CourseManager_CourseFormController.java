@@ -8,6 +8,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextField;
 
@@ -17,7 +18,6 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.ChoiceBox;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 
@@ -32,7 +32,7 @@ public class CourseManager_CourseFormController implements Initializable {
 	private JFXDatePicker dtBeginDate;
 
 	@FXML
-	private ChoiceBox<String> chBoxDeptList;
+    private JFXComboBox<String> chBoxDeptList;
 
 	@FXML
 	private JFXTextField txtFee;
@@ -102,10 +102,6 @@ public class CourseManager_CourseFormController implements Initializable {
 		loadDeptList();
 		updateChoiceBoxView();
 		
-	}
-
-	public ChoiceBox<String> getChBoxDeptList() {
-		return chBoxDeptList;
 	}
 
 	private void updateChoiceBoxView() {
