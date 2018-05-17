@@ -387,32 +387,5 @@ TreeItem<Course> selection = treeView.getSelectionModel().getSelectedItem();
 
     }
     
-    class SelectedCourse extends RecursiveTreeObject<SelectedCourse> {
-
-        StringProperty deptID;
-        StringProperty courseID;
-        StringProperty name;
-        StringProperty beginDate;
-        StringProperty endDate;
-        ObservableValue<Number> fee;
-        IntegerProperty numberOfCredit;
-        IntegerProperty maxSlot;
-        StringProperty room;
-        IntegerProperty availableSlot;
-        
-        
-        public SelectedCourse(String courseID,String deptID,String name,String beginDate,String endDate, double fee, int numberOfCredit,int maxSlot,int availableSlot,String room) {
-            this.courseID = new SimpleStringProperty(courseID);
-            this.deptID = new SimpleStringProperty(deptID);
-            this.name = new SimpleStringProperty(name);
-            this.beginDate = new SimpleStringProperty(beginDate);
-            this.endDate = new SimpleStringProperty(endDate);
-            this.fee = new SimpleDoubleProperty(fee);
-            this.numberOfCredit = new SimpleIntegerProperty(numberOfCredit);
-            this.maxSlot = new SimpleIntegerProperty(maxSlot);
-            this.availableSlot = new SimpleIntegerProperty(availableSlot);
-            this.room = new SimpleStringProperty(room);
-        }
-
-    }
+   
 }
