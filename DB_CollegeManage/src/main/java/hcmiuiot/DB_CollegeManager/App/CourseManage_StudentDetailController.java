@@ -12,6 +12,7 @@ import com.jfoenix.controls.RecursiveTreeItem;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 
 import hcmiuiot.DB_CollegeManager.DatabaseHandler.DbHandler;
+import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ObservableValue;
@@ -91,8 +92,9 @@ public class CourseManage_StudentDetailController implements Initializable {
 							}
 						});
 				
-
-				updateTableView(tableData);
+				Platform.runLater(() -> {
+					updateTableView(tableData);
+				});
 			}
 		}).start();
 

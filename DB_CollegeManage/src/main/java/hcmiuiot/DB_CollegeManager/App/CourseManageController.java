@@ -327,9 +327,8 @@ public class CourseManageController implements Initializable {
 		Scene scene = new Scene(root);
 		formStage.setScene(scene);
 		formStage.setResizable(false);
-		formStage.setTitle("Show enroll student in " + selectedCourse.getValue().name.get());
+		formStage.setTitle(selectedCourse.getValue().name.get());
 		formStage.showAndWait();
-
 	}
 
 	private void updateTableView(ResultSet inputResult) {
