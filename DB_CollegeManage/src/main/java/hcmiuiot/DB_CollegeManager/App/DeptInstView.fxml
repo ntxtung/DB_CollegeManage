@@ -10,10 +10,10 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
@@ -88,11 +88,13 @@
                         <Font name="Dubai Medium" size="32.0" />
                      </font>
                   </Label>
-                  <Circle fx:id="circleDean" fill="WHITE" layoutX="289.0" layoutY="141.0" radius="100.0" stroke="#160af8" strokeType="INSIDE" />
-                  <ImageView fx:id="dean" fitHeight="198.0" fitWidth="200.0" layoutX="191.0" layoutY="42.0" pickOnBounds="true" preserveRatio="true" />
-                  <ScrollPane fx:id="instScroll" layoutX="122.0" layoutY="291.0" prefHeight="327.0" prefWidth="399.0">
+                  <ScrollPane fx:id="instScroll" layoutX="75.0" layoutY="80.0" prefHeight="557.0" prefWidth="543.0">
                     <content>
-                      <AnchorPane fx:id="instAnchor" minHeight="0.0" minWidth="0.0" prefHeight="254.0" prefWidth="322.0" />
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="558.0" prefWidth="540.0" style="-fx-border-color: red;">
+                           <children>
+                              <FlowPane fx:id="instFlow" prefHeight="558.4" prefWidth="540.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                           </children>
+                        </AnchorPane>
                     </content>
                   </ScrollPane>
                </children></Pane>
