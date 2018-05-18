@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXDatePicker?>
+<?import com.jfoenix.controls.JFXPasswordField?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane focusTraversable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="398.0" prefWidth="569.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hcmiuiot.DB_CollegeManager.App.StudentRegisterController">
+   <children>
+      <JFXTextField fx:id="txtFirstName" labelFloat="true" layoutX="54.0" layoutY="34.0" prefHeight="25.0" prefWidth="227.0" promptText="First Name" />
+      <JFXTextField fx:id="txtLastName" labelFloat="true" layoutX="53.0" layoutY="85.0" prefHeight="25.0" prefWidth="227.0" promptText="Last Name" />
+      <JFXTextField fx:id="txtid" labelFloat="true" layoutX="55.0" layoutY="134.0" prefHeight="29.0" prefWidth="227.0" promptText="ID" />
+      <JFXPasswordField fx:id="txtpwd" labelFloat="true" layoutX="54.0" layoutY="188.0" prefHeight="29.0" prefWidth="227.0" promptText="Password" />
+      <JFXDatePicker fx:id="txtBirthday" layoutX="53.0" layoutY="249.0" prefHeight="28.0" prefWidth="227.0" promptText="Date of birth" />
+      <JFXComboBox fx:id="txtDept" layoutX="54.0" layoutY="307.0" prefHeight="26.0" prefWidth="227.0" promptText="Department" />
+      <ImageView fx:id="img" fitHeight="220.0" fitWidth="227.0" layoutX="300.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true" />
+      <JFXButton buttonType="RAISED" layoutX="303.0" layoutY="281.0" onAction="#onBrowseIMG" prefHeight="50.0" prefWidth="105.0" style="-fx-background-color: #2d378e;" text="BROWSE IMG" textFill="#eee7e7" />
+      <JFXButton buttonType="RAISED" layoutX="424.0" layoutY="281.0" onAction="#onCreate" prefHeight="50.0" prefWidth="105.0" style="-fx-background-color: #2d378e;" text="CREATE" textFill="#eee7e7" />
+   </children>
+</AnchorPane>
