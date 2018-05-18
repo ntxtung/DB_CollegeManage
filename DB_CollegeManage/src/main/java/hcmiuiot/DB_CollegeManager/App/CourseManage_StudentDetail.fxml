@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXTreeTableView?>
+<?import javafx.scene.control.TreeTableColumn?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="592.0" prefWidth="980.0" stylesheets="@CourseManage.css" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hcmiuiot.DB_CollegeManager.App.CourseManage_StudentDetailController">
+   <children>
+      <JFXTreeTableView fx:id="tableView" layoutX="14.0" layoutY="13.0" prefHeight="566.0" prefWidth="960.0" AnchorPane.bottomAnchor="13.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="13.0">
+         <columns>
+            <TreeTableColumn fx:id="studentID" prefWidth="81.0" text="Student ID" />
+            <TreeTableColumn fx:id="fName" prefWidth="171.0" text="First name" />
+            <TreeTableColumn fx:id="lName" prefWidth="91.0" text="Last name" />
+         </columns></JFXTreeTableView>
+   </children>
+</AnchorPane>
