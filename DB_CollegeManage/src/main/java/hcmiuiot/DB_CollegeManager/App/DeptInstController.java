@@ -1,5 +1,6 @@
 package hcmiuiot.DB_CollegeManager.App;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -7,11 +8,16 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.JFXScrollPane;
 import com.jfoenix.controls.JFXSpinner;
 
 import hcmiuiot.DB_CollegeManager.DatabaseHandler.DbHandler;
+import javafx.animation.FadeTransition;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -19,15 +25,19 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+//import javafx.scene.control.ScrollBarPolicy;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
-
+import javafx.util.Duration;
 /*
  *  Control Department & Instructor Form
  */
@@ -38,8 +48,9 @@ public class DeptInstController implements Initializable {
 	@FXML
 	private ImageView logo;
 	@FXML
-	private ImageView dean;
-	@FXML
+
+	private ImageView avatar;
+
 	private Text name;
 	@FXML
 	private Text email;
@@ -47,10 +58,10 @@ public class DeptInstController implements Initializable {
 	private Text phone;
 	@FXML
 	private JFXSpinner spinnerLoading;
+	
 	@FXML
-	private Circle circleDean;
-	// @FXML
-	// private Text deanDetails;
+	private FlowPane instFlow;
+
 	@FXML
 	private ScrollPane instScroll;
 	@FXML
@@ -79,6 +90,7 @@ public class DeptInstController implements Initializable {
 						.execQuery("SELECT deptID, name,mail,phone,logo, head_id FROM topicS.Department");
 
 				try {
+					
 					while (rsDept.next()) {
 
 						String deptName = rsDept.getString("name");
@@ -132,13 +144,38 @@ public class DeptInstController implements Initializable {
 								email.setText(dataDept.get(selectedValue).getMail());
 								phone.setText(dataDept.get(selectedValue).getPhone());
 								logo.setImage(dataDept.get(selectedValue).getLogo());
-								dean.setImage(dataDept.get(selectedValue).getHead().getImg());
-								loadRoundImage(circleDean, dean, circleDean.getRadius());
+								
+								instFlow.getChildren().clear();
+								instScroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+								instScroll.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
 
 								for (Instructor instructor : dataDept.get(selectedValue).getInstructorList()) {
+
 									// add each of instructor
+									FXMLLoader loader = new FXMLLoader(getClass().getResource("LectureView.fxml"));
+									try {
+										AnchorPane lecturePane = loader.load();
+										LectureViewController controller = loader.getController();
+										controller.setAvatar(instructor.getImg());
+										controller.setName(instructor.getName());
+										controller.setEmail(instructor.getMail());
+										controller.setPhone(instructor.getPhone());
+										instFlow.getChildren().add(lecturePane);
+										if(dataDept.get(selectedValue).getHeadID().equals(instructor.id))
+										{
+											controller.setSpecify("Dean");
+										}
+										else
+										{
+											controller.setSpecify("Lecture");
+										}
+									} catch (IOException e) {
+										e.printStackTrace();
+									}
 								}
+								System.out.println(instFlow.getChildren().size());
 							}
+
 						}
 					});
 
@@ -155,9 +192,9 @@ public class DeptInstController implements Initializable {
 		}).start();
 
 	}
-
-	public void loadRoundImage(Circle clip, ImageView imageView, double radius) {
-		clip = new Circle(imageView.getFitWidth(), imageView.getFitHeight(), radius, Color.WHITE);
+	
+	public void loadRoundImage(Circle clip,ImageView imageView,double radius) {
+		clip = new Circle(imageView.getFitWidth(),imageView.getFitHeight(),radius,Color.WHITE);
 		clip.setVisible(true);
 		imageView.setClip(clip);
 	}
