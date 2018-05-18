@@ -55,10 +55,10 @@ public class LoginController implements Initializable{
 
         imgProgress.setVisible(true);
         
-        String username = "dbproject";
-        String password = "1.Dbproject";
-//        String username = txtUsername.getText();
-//        String password = txtPassword.getText();
+//        String username = "dbproject";
+//        String password = "1.Dbproject";
+        String username = txtUsername.getText();
+        String password = txtPassword.getText();
             
         new Thread(new Runnable() {	
 			@Override

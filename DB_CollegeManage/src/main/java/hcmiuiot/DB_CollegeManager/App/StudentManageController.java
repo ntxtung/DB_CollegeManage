@@ -140,79 +140,88 @@ public class StudentManageController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		loadDB();
-		loadDeptList();
-
-		studentID.setCellValueFactory(
-				new Callback<TreeTableColumn.CellDataFeatures<Student, String>, ObservableValue<String>>() {
-					@Override
-					public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<Student, String> param) {
-						return param.getValue().getValue().studentID;
-					}
-				});
-
-		fName.setCellValueFactory(
-				new Callback<TreeTableColumn.CellDataFeatures<Student, String>, ObservableValue<String>>() {
-					@Override
-					public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<Student, String> param) {
-						return param.getValue().getValue().fName;
-					}
-				});
-
-		lName.setCellValueFactory(
-				new Callback<TreeTableColumn.CellDataFeatures<Student, String>, ObservableValue<String>>() {
-					@Override
-					public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<Student, String> param) {
-						return param.getValue().getValue().lName;
-					}
-				});
-
-		dateOfBirth.setCellValueFactory(
-				new Callback<TreeTableColumn.CellDataFeatures<Student, String>, ObservableValue<String>>() {
-					@Override
-					public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<Student, String> param) {
-						return param.getValue().getValue().birthday;
-					}
-				});
-
-		deptID.setCellValueFactory(
-				new Callback<TreeTableColumn.CellDataFeatures<Student, String>, ObservableValue<String>>() {
-					@Override
-					public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<Student, String> param) {
-						return param.getValue().getValue().deptID;
-					}
-				});
-
 		
-		updateTableView(tableData);
-		updateChoiceBoxView();
-		
-		txtFieldSearch.textProperty().addListener(new ChangeListener<String>() {
+		new Thread(new Runnable() {
+			
 			@Override
-			public void changed(ObservableValue<? extends String> observable, String oldValue, String filter) {
+			public void run() {
+				loadDB();
+				loadDeptList();
 
-				tableView.setPredicate(new Predicate<TreeItem<Student>>() {
+				studentID.setCellValueFactory(
+						new Callback<TreeTableColumn.CellDataFeatures<Student, String>, ObservableValue<String>>() {
+							@Override
+							public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<Student, String> param) {
+								return param.getValue().getValue().studentID;
+							}
+						});
+
+				fName.setCellValueFactory(
+						new Callback<TreeTableColumn.CellDataFeatures<Student, String>, ObservableValue<String>>() {
+							@Override
+							public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<Student, String> param) {
+								return param.getValue().getValue().fName;
+							}
+						});
+
+				lName.setCellValueFactory(
+						new Callback<TreeTableColumn.CellDataFeatures<Student, String>, ObservableValue<String>>() {
+							@Override
+							public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<Student, String> param) {
+								return param.getValue().getValue().lName;
+							}
+						});
+
+				dateOfBirth.setCellValueFactory(
+						new Callback<TreeTableColumn.CellDataFeatures<Student, String>, ObservableValue<String>>() {
+							@Override
+							public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<Student, String> param) {
+								return param.getValue().getValue().birthday;
+							}
+						});
+
+				deptID.setCellValueFactory(
+						new Callback<TreeTableColumn.CellDataFeatures<Student, String>, ObservableValue<String>>() {
+							@Override
+							public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<Student, String> param) {
+								return param.getValue().getValue().deptID;
+							}
+						});
+
+				
+				updateTableView(tableData);
+				updateChoiceBoxView();
+				
+				txtFieldSearch.textProperty().addListener(new ChangeListener<String>() {
 					@Override
-					public boolean test(TreeItem<Student> t) {
-						Boolean flag = t.getValue().studentID.getValue().contains(filter) || 
-									   t.getValue().fName.getValue().contains(filter) ||
-									   t.getValue().lName.getValue().contains(filter);
-						return flag;
+					public void changed(ObservableValue<? extends String> observable, String oldValue, String filter) {
+
+						tableView.setPredicate(new Predicate<TreeItem<Student>>() {
+							@Override
+							public boolean test(TreeItem<Student> t) {
+								Boolean flag = t.getValue().studentID.getValue().contains(filter) || 
+											   t.getValue().fName.getValue().contains(filter) ||
+											   t.getValue().lName.getValue().contains(filter);
+								return flag;
+							}
+						});
 					}
+				});    
+				
+				tableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+				    if (newSelection != null) {
+				    	btnEditStudent.setDisable(false);
+				    	btnDeleteStudent.setDisable(false);
+				    } else {
+				    	btnEditStudent.setDisable(true);
+				    	btnDeleteStudent.setDisable(true);
+				    }
 				});
+
 			}
-		});    
+		}).start();
 		
-		tableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
-		    if (newSelection != null) {
-		    	btnEditStudent.setDisable(false);
-		    	btnDeleteStudent.setDisable(false);
-		    } else {
-		    	btnEditStudent.setDisable(false);
-		    	btnDeleteStudent.setDisable(false);
-		    }
-		});
-		
+				
 	}
 	
 	private void updateTableView(ResultSet inputResult) {

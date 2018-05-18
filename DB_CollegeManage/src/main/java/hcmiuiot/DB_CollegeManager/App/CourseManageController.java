@@ -16,6 +16,7 @@ import com.jfoenix.controls.RecursiveTreeItem;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 
 import hcmiuiot.DB_CollegeManager.DatabaseHandler.DbHandler;
+import javafx.application.Platform;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -122,97 +123,118 @@ public class CourseManageController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		loadDB();
-		loadDeptList();
-
-		courseID.setCellValueFactory(
-				new Callback<TreeTableColumn.CellDataFeatures<Course, String>, ObservableValue<String>>() {
-					@Override
-					public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<Course, String> param) {
-						return param.getValue().getValue().courseID;
-					}
-				});
-
-		departmentID.setCellValueFactory(
-				new Callback<TreeTableColumn.CellDataFeatures<Course, String>, ObservableValue<String>>() {
-					@Override
-					public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<Course, String> param) {
-						return param.getValue().getValue().deptID;
-					}
-				});
-
-		name.setCellValueFactory(
-				new Callback<TreeTableColumn.CellDataFeatures<Course, String>, ObservableValue<String>>() {
-					@Override
-					public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<Course, String> param) {
-						return param.getValue().getValue().name;
-					}
-				});
-
-		beginDate.setCellValueFactory(
-				new Callback<TreeTableColumn.CellDataFeatures<Course, String>, ObservableValue<String>>() {
-					@Override
-					public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<Course, String> param) {
-						return param.getValue().getValue().beginDate;
-					}
-				});
-
-		endDate.setCellValueFactory(
-				new Callback<TreeTableColumn.CellDataFeatures<Course, String>, ObservableValue<String>>() {
-					@Override
-					public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<Course, String> param) {
-						return param.getValue().getValue().endDate;
-					}
-				});
-
-		fee.setCellValueFactory(
-				new Callback<TreeTableColumn.CellDataFeatures<Course, Number>, ObservableValue<Number>>() {
-					@Override
-					public ObservableValue<Number> call(TreeTableColumn.CellDataFeatures<Course, Number> param) {
-						return param.getValue().getValue().fee;
-					}
-				});
-
-		numberOfCredits.setCellValueFactory(
-				new Callback<TreeTableColumn.CellDataFeatures<Course, Number>, ObservableValue<Number>>() {
-					@Override
-					public ObservableValue<Number> call(TreeTableColumn.CellDataFeatures<Course, Number> param) {
-						return param.getValue().getValue().numberOfCredit;
-					}
-				});
-
-		maxSlot.setCellValueFactory(
-				new Callback<TreeTableColumn.CellDataFeatures<Course, Number>, ObservableValue<Number>>() {
-					@Override
-					public ObservableValue<Number> call(TreeTableColumn.CellDataFeatures<Course, Number> param) {
-						return param.getValue().getValue().maxSlot;
-					}
-				});
-
-		room.setCellValueFactory(
-				new Callback<TreeTableColumn.CellDataFeatures<Course, String>, ObservableValue<String>>() {
-					@Override
-					public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<Course, String> param) {
-						return param.getValue().getValue().room;
-					}
-				});
-		updateTableView(tableData);
-		updateChoiceBoxView();
-
-		txtFieldSearch.textProperty().addListener(new ChangeListener<String>() {
+		
+		new Thread(new Runnable() {
+			
 			@Override
-			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+			public void run() {
+				// TODO Auto-generated method stub
+				loadDB();
+				loadDeptList();
+				courseID.setCellValueFactory(
+						new Callback<TreeTableColumn.CellDataFeatures<Course, String>, ObservableValue<String>>() {
+							@Override
+							public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<Course, String> param) {
+								return param.getValue().getValue().courseID;
+							}
+						});
 
-				tableView.setPredicate(new Predicate<TreeItem<Course>>() {
+				departmentID.setCellValueFactory(
+						new Callback<TreeTableColumn.CellDataFeatures<Course, String>, ObservableValue<String>>() {
+							@Override
+							public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<Course, String> param) {
+								return param.getValue().getValue().deptID;
+							}
+						});
+
+				name.setCellValueFactory(
+						new Callback<TreeTableColumn.CellDataFeatures<Course, String>, ObservableValue<String>>() {
+							@Override
+							public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<Course, String> param) {
+								return param.getValue().getValue().name;
+							}
+						});
+
+				beginDate.setCellValueFactory(
+						new Callback<TreeTableColumn.CellDataFeatures<Course, String>, ObservableValue<String>>() {
+							@Override
+							public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<Course, String> param) {
+								return param.getValue().getValue().beginDate;
+							}
+						});
+
+				endDate.setCellValueFactory(
+						new Callback<TreeTableColumn.CellDataFeatures<Course, String>, ObservableValue<String>>() {
+							@Override
+							public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<Course, String> param) {
+								return param.getValue().getValue().endDate;
+							}
+						});
+
+				fee.setCellValueFactory(
+						new Callback<TreeTableColumn.CellDataFeatures<Course, Number>, ObservableValue<Number>>() {
+							@Override
+							public ObservableValue<Number> call(TreeTableColumn.CellDataFeatures<Course, Number> param) {
+								return param.getValue().getValue().fee;
+							}
+						});
+
+				numberOfCredits.setCellValueFactory(
+						new Callback<TreeTableColumn.CellDataFeatures<Course, Number>, ObservableValue<Number>>() {
+							@Override
+							public ObservableValue<Number> call(TreeTableColumn.CellDataFeatures<Course, Number> param) {
+								return param.getValue().getValue().numberOfCredit;
+							}
+						});
+
+				maxSlot.setCellValueFactory(
+						new Callback<TreeTableColumn.CellDataFeatures<Course, Number>, ObservableValue<Number>>() {
+							@Override
+							public ObservableValue<Number> call(TreeTableColumn.CellDataFeatures<Course, Number> param) {
+								return param.getValue().getValue().maxSlot;
+							}
+						});
+
+				room.setCellValueFactory(
+						new Callback<TreeTableColumn.CellDataFeatures<Course, String>, ObservableValue<String>>() {
+							@Override
+							public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<Course, String> param) {
+								return param.getValue().getValue().room;
+							}
+						});
+				updateTableView(tableData);
+				updateChoiceBoxView();
+				tableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+				   Platform.runLater(() -> {
+					   if (newSelection != null) {
+					    	btnEditCourse.setDisable(false);
+					    	btnDeleteCourse.setDisable(false);
+					    	btnStdDetail.setDisable(false);
+					    } else {
+					    	btnEditCourse.setDisable(true);
+					    	btnDeleteCourse.setDisable(true);
+					    	btnStdDetail.setDisable(true);
+					    }   
+				   });
+				});
+				txtFieldSearch.textProperty().addListener(new ChangeListener<String>() {
 					@Override
-					public boolean test(TreeItem<Course> t) {
-						// System.out.println(newValue);
-						Boolean flag = t.getValue().name.getValue().contains(newValue);
-						return flag;
+					public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+
+						tableView.setPredicate(new Predicate<TreeItem<Course>>() {
+							@Override
+							public boolean test(TreeItem<Course> t) {
+								// System.out.println(newValue);
+								Boolean flag = t.getValue().name.getValue().contains(newValue);
+								return flag;
+							}
+						});
 					}
 				});
 			}
-		});
+		}).start();
+
+		
 	}
 
 	@FXML
@@ -291,7 +313,22 @@ public class CourseManageController implements Initializable {
 	}
 
 	@FXML
-	public void onStdDetail(ActionEvent event) {
+	public void onStdDetail(ActionEvent event) throws IOException {
+		Stage formStage = new Stage();
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(getClass().getResource("CourseManage_StudentDetail.fxml"));
+		loader.load();
+
+		CourseManage_StudentDetailController form = loader.getController();
+		TreeItem<Course> selectedCourse = tableView.getSelectionModel().getSelectedItem();
+		form.setInitDeptID(selectedCourse.getValue().courseID.get());
+		
+		Parent root = loader.getRoot();
+		Scene scene = new Scene(root);
+		formStage.setScene(scene);
+		formStage.setResizable(false);
+		formStage.setTitle("Show enroll student in " + selectedCourse.getValue().name.get());
+		formStage.showAndWait();
 
 	}
 
